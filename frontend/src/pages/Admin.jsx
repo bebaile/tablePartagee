@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import api from "@services/services";
-import DaysAvailability from "@components/DaysAvailability";
 import UsersList from "@components/UsersList";
 import "../styles/admin.css";
 
@@ -38,13 +37,6 @@ function Admin() {
                 return (
                   <div className="day-box" key={day}>
                     <div className="day-title">{day}</div>
-                    <DaysAvailability
-                      day={day}
-                      key={day}
-                      availability={availability}
-                      setIsAvailabilityModified={setIsAvailabilityModified}
-                      isAvailabilityModified={isAvailabilityModified}
-                    />
                   </div>
                 );
               })}

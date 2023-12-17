@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "@components/Navbar";
-import MyCV from "@pages/MyCV";
+import Fiche from "@pages/Fiche";
 import Login from "@pages/Login";
 import Admin from "@pages/Admin";
 import PrivateRoute from "@services/PrivateRoute";
@@ -14,24 +14,14 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar
+        {/* <Navbar
           isApointmentDisplayed={isApointmentDisplayed}
           setIsApointmentDisplayed={setIsApointmentDisplayed}
           setIsUserAccountDisplayed={setIsUserAccountDisplayed}
           isUserAccountDisplayed={isUserAccountDisplayed}
-        />
+        /> */}
         <Routes>
-          <Route
-            path="/"
-            element={
-              <MyCV
-                isApointmentDisplayed={isApointmentDisplayed}
-                setIsApointmentDisplayed={setIsApointmentDisplayed}
-                isUserAccountDisplayed={isUserAccountDisplayed}
-                setIsUserAccountDisplayed={setIsUserAccountDisplayed}
-              />
-            }
-          />
+          <Route path="/" element={<Fiche />} />
           <Route path="/login" element={<Login />} />
           <Route
             path="/admin"

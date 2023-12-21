@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NewsFeed from "./NewsFeed";
+import content from "../data/newsFeed.json";
 
 function PublishFeed() {
   // Etat du liveFeed
 
-  const [liveFeed, setLiveFeed] = useState([
-    {
-      id: 0,
-      text: "bonjour, je vais bien, je viens de cuisiner des lasagnes végétariennes délicieuses pour mes invités",
-      image: "",
-    },
-  ]);
+  console.log(content);
+  const [liveFeed, setLiveFeed] = useState(content);
 
   //   Etat du formulaire
-  const [textContent, setTextContent] = useState("");
-  const [picture, setPicture] = useState("");
   const [publishContent, setPublishContent] = useState({});
 
   //   fonctions de gestions du formulaire
@@ -25,8 +19,20 @@ function PublishFeed() {
   };
 
   const handleSubmit = () => {
-    console.error(publishContent);
+    setLiveFeed([
+      ...liveFeed,
+      {
+        id: liveFeed.length + 1,
+        user: "Basile",
+        text: publishContent.text,
+        image: "",
+      },
+    ]);
   };
+
+  useEffect(() => {
+    console.error(publishContent);
+  }, [publishContent]);
 
   return (
     <>
@@ -41,7 +47,7 @@ function PublishFeed() {
               <button
                 className="submit-btn"
                 type="button"
-                onSubmit={handleSubmit}
+                onClick={handleSubmit}
               >
                 Publier
               </button>

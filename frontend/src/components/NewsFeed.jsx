@@ -1,8 +1,9 @@
 import React from "react";
 
-function NewsFeed({ content }) {
+function NewsFeed({ content, handleLikes }) {
   //   console.error(typeof content.imageUrl);
   //   console.error(content.imageUrl);
+
   return (
     <>
       <div className="news-feed">
@@ -20,6 +21,19 @@ function NewsFeed({ content }) {
             </div>
           ) : null}
           <div>{content.text}</div>
+        </div>
+        <div className="reactions">
+          <div>Likes: {content.likes}</div>
+          <div>
+            <button
+              className="submit-btn"
+              id="like-btn"
+              type="button"
+              onClick={() => handleLikes(content.id)}
+            >
+              {content.isLiked === false ? "Liker" : "Unliker"}
+            </button>
+          </div>
         </div>
       </div>
     </>

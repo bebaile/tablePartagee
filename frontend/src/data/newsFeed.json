@@ -3,60 +3,80 @@
     "id": 1,
     "user": "Alice",
     "text": "Salut tout le monde ! Je cherche des conseils pour améliorer mes compétences en pâtisserie. Des suggestions ? 🍰",
-    "image": "lien_vers_image1.jpg"
+    "image": "lien_vers_image1.jpg",
+    "likes": 23,
+    "isLiked": false
   },
   {
     "id": 2,
     "user": "Bob",
     "text": "Bonjour à tous ! J'ai essayé une nouvelle recette de soupe aux légumes hier soir. Quelqu'un veut la recette ? 😊",
-    "image": "lien_vers_image2.jpg"
+    "image": "lien_vers_image2.jpg",
+    "likes": 16,
+    "isLiked": false
   },
   {
     "id": 3,
     "user": "Claire",
     "text": "Coucou ! J'ai besoin d'aide pour choisir un bon couteau de chef. Des recommandations ? 🔪",
-    "image": ""
+    "image": "",
+    "likes": 2,
+    "isLiked": false
   },
   {
     "id": 4,
     "user": "David",
     "text": "Hello, les chefs ! J'ai découvert une astuce pour rendre les pâtes plus savoureuses. Qui veut la connaître ? 🍝",
-    "image": "lien_vers_image3.jpg"
+    "image": "lien_vers_image3.jpg",
+    "likes": 3,
+    "isLiked": true
   },
   {
     "id": 5,
     "user": "Eva",
     "text": "Salutations ! Quelqu'un a des idées pour des plats végétariens originaux ? Partagez vos recettes ! 🌱",
-    "image": ""
+    "image": "",
+    "likes": 0,
+    "isLiked": false
   },
   {
     "id": 6,
     "user": "Frank",
     "text": "Salut les gourmets ! Je recherche des astuces pour réussir une cuisson parfaite du poisson. Des conseils ? 🐟",
-    "image": "lien_vers_image4.jpg"
+    "image": "lien_vers_image4.jpg",
+    "likes": 12,
+    "isLiked": true
   },
   {
     "id": 7,
     "user": "Grace",
     "text": "Bonjour à tous ! J'ai une question sur la fermentation des aliments. Des experts ici ? 🥬",
-    "image": ""
+    "image": "",
+    "likes": 9,
+    "isLiked": true
   },
   {
     "id": 8,
     "user": "Hugo",
     "text": "Hey ! Je viens de réaliser une tarte aux pommes. Qui veut une part virtuelle ? 🍏",
-    "image": "lien_vers_image5.jpg"
+    "image": "lien_vers_image5.jpg",
+    "likes": 2,
+    "isLiked": false
   },
   {
     "id": 9,
     "user": "Iris",
     "text": "Coucou la communauté ! J'ai réussi à faire des macarons. Besoin de conseils pour les parfums. Des idées ? 🎂",
-    "image": "lien_vers_image6.jpg"
+    "image": "lien_vers_image6.jpg",
+    "likes": 7,
+    "isLiked": true
   },
   {
     "id": 10,
     "user": "Jack",
     "text": "Salut à tous ! Je suis en quête d'idées pour des snacks sains et délicieux. Des suggestions ? 🥦",
-    "image": ""
+    "image": "",
+    "likes": 3,
+    "isLiked": false
   }
 ]

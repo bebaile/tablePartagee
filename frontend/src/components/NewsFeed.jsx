@@ -31,7 +31,7 @@ function NewsFeed({ content, handleLikes }) {
               type="button"
               onClick={() => handleLikes(content.id)}
             >
-              Liker
+              {content.isLiked === false ? "Liker" : "Unliker"}
             </button>
           </div>
         </div>

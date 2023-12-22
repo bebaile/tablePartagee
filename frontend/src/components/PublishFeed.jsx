@@ -31,7 +31,12 @@ function PublishFeed() {
   const handleLikes = (postId) => {
     const tmpLiveFeed = [...liveFeed];
     const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
-    tmpLiveFeed[arrayIndex].likes += 1;
+    if (tmpLiveFeed[arrayIndex].isLiked) {
+      tmpLiveFeed[arrayIndex].likes -= 1;
+    } else {
+      tmpLiveFeed[arrayIndex].likes += 1;
+    }
+    tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
     setLiveFeed(tmpLiveFeed);
   };
 

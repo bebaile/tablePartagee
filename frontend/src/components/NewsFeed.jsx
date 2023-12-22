@@ -1,6 +1,6 @@
 import React from "react";
 
-function NewsFeed({ content, handleLikes }) {
+function NewsFeed({ content, handleLikes, handleComments }) {
   //   console.error(typeof content.imageUrl);
   //   console.error(content.imageUrl);
 
@@ -27,6 +27,14 @@ function NewsFeed({ content, handleLikes }) {
           <div>
             <button
               className="submit-btn"
+              id="comment-btn"
+              type="button"
+              onClick={() => handleLikes(content.id)}
+            >
+              Commenter
+            </button>
+            <button
+              className="submit-btn"
               id="like-btn"
               type="button"
               onClick={() => handleLikes(content.id)}
@@ -35,6 +43,9 @@ function NewsFeed({ content, handleLikes }) {
             </button>
           </div>
         </div>
+        {content.comments.map((comment) => {
+          return <div className="comments">{comment.content}</div>;
+        })}
       </div>
     </>
   );

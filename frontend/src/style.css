@@ -118,7 +118,8 @@ h3 {
   display: inline;
 }
 
-#content {
+#content,
+.comments {
   margin: 10px;
   padding: 10px;
   border: 1px dotted gray;
@@ -138,10 +139,16 @@ h3 {
   font-size: 0.8rem;
 }
 
+#comment-btn,
 #like-btn {
   background-color: blue;
   border: 1px solid blue;
   min-height: 20px;
   font-size: 0.8rem;
   font-weight: normal;
+  margin-left: 10px;
+}
+
+.comments {
+  margin-left: 40px;
 }

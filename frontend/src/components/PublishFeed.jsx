@@ -40,6 +40,11 @@ function PublishFeed() {
     setLiveFeed(tmpLiveFeed);
   };
 
+  const handleComments = (postId) => {
+    const tmpLiveFeed = [...liveFeed];
+    const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -117,6 +122,7 @@ function PublishFeed() {
               content={item}
               key={item.id}
               handleLikes={(likes) => handleLikes(likes)}
+              handleComments={(comment) => handleComments(comment)}
             />
           );
         })}

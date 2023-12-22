@@ -46,9 +46,27 @@ textarea {
 
 .submit {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px 0;
   margin: 10px 0;
+}
+
+.add-picture {
+  border: 0;
+  background-color: white;
+}
+
+.icon {
+  width: 2rem;
+  filter: invert(50%);
+}
+
+.icon:hover,
+icon:active {
+  filter: invert(0%);
+  cursor: pointer;
+  background-color: initial;
 }
 
 .submit-btn {

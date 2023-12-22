@@ -80,7 +80,10 @@ function PublishFeed() {
         id: liveFeed.length + 1,
         user: "Basile",
         text: publishContent.text,
-        imageUrl: uploadedFileUrl,
+        likes: 0,
+        isLiked: false,
+        // imageUrl: uploadedFileUrl,
+        comments: [],
       },
     ]);
     setTextAreaValue("");

@@ -139,9 +139,13 @@ h3 {
   font-size: 0.8rem;
 }
 
+#comments-nbr {
+  cursor: pointer;
+}
+
 #comment-btn,
 #like-btn {
-  background-color: blue;
+  background-color: rgb(0, 119, 255);
   border: 1px solid blue;
   min-height: 20px;
   font-size: 0.8rem;

@@ -34,7 +34,14 @@ function NewsFeed({
         <div className="reactions">
           <div className="">
             <div>Likes: {content.likes}</div>
-            <div>Comments: {content.comments.length}</div>
+            <div
+              id="comments-nbr"
+              onClick={() => {
+                setAreCommentsDisplayed(!areCommentsDisplayed);
+              }}
+            >
+              Comments: {content.comments.length}
+            </div>
           </div>
           <div>
             <button

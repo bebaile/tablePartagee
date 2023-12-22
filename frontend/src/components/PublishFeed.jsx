@@ -8,6 +8,7 @@ function PublishFeed() {
 
   // console.log(content);
   const [liveFeed, setLiveFeed] = useState(content);
+  const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
 
   //   Etat du formulaire
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -22,12 +23,15 @@ function PublishFeed() {
   };
 
   const handleImageChange = (e) => {
-    // console.error(e.target.files[0]);
+    console.error(e.target.files[0].name);
     setImage(e.target.files[0]);
+    // setUploadedFileUrl(`../../backend/uploads/${e.target.files[0].name}`);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // upload file
     const url = "/uploadFile";
     const formData = new FormData();
     formData.append("image", image);
@@ -38,17 +42,24 @@ function PublishFeed() {
       },
     };
     console.error(formData);
-    api.post(url, formData, config).then((response) => {
-      console.error(response.data);
-    });
+    api
+      .post(url, formData, config)
+      .then((response) => {
+        console.error(uploadedFileUrl);
+        setUploadedFileUrl(response.data.fileUrl);
+      })
+      .catch((error) => {
+        console.error("Erreur d'upload: ", error);
+      });
 
+    // update livefeeed
     setLiveFeed([
       ...liveFeed.reverse(),
       {
         id: liveFeed.length + 1,
         user: "Basile",
         text: publishContent.text,
-        image: "",
+        imageUrl: uploadedFileUrl,
       },
     ]);
     setTextAreaValue("");

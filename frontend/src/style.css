@@ -103,6 +103,8 @@ icon:active {
   opacity: 0.5;
 }
 
+/* NewsFeed */
+
 .news-feed {
   padding: 10px;
   margin: 10px;
@@ -121,4 +123,9 @@ h3 {
   padding: 10px;
   border: 1px dotted gray;
   border-radius: 10px;
+  display: flex;
+}
+
+.illustration {
+  width: 100px;
 }

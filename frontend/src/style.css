@@ -44,12 +44,17 @@ textarea {
   resize: vertical;
 }
 
-.submit {
+.submit,
+.submit-comment {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
   margin: 10px 0;
+}
+
+.submit-comment {
+  justify-content: flex-end;
 }
 
 .add-picture {

@@ -149,6 +149,8 @@ h3 {
   margin-left: 10px;
 }
 
-.comments {
-  margin-left: 40px;
+#comment {
+  background-color: hsla(0, 4%, 85%, 0.462);
+  margin: 10px 10px 10px 20px;
+  border-radius: 10px;
 }

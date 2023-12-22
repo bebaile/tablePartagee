@@ -6,6 +6,8 @@ import api from "@services/services";
 function PublishFeed() {
   // Etat du liveFeed
 
+  const [isComment, setIsComment] = useState(false);
+
   // console.log(content);
   const [liveFeed, setLiveFeed] = useState(content);
   const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
@@ -115,6 +117,7 @@ function PublishFeed() {
           </form>
         </div>
       </div>
+
       <div className="container">
         {liveFeed.map((item) => {
           return (
@@ -123,6 +126,8 @@ function PublishFeed() {
               key={item.id}
               handleLikes={(likes) => handleLikes(likes)}
               handleComments={(comment) => handleComments(comment)}
+              isComment={isComment}
+              setIsComment={setIsComment}
             />
           );
         })}

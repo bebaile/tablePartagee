@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-function NewsFeed({ content, handleLikes }) {
+function NewsFeed({
+  content,
+  handleLikes,
+  handleComments,
+  isComment,
+  setIsComment,
+}) {
   //   console.error(typeof content.imageUrl);
   //   console.error(content.imageUrl);
+  //   console.error(content.comments);
+
+  const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
 
   return (
     <>
@@ -20,11 +29,29 @@ function NewsFeed({ content, handleLikes }) {
               />
             </div>
           ) : null}
-          <div>{content.text}</div>
+          <div id={!isComment ? "" : "comment"}>{content.text}</div>
         </div>
         <div className="reactions">
-          <div>Likes: {content.likes}</div>
+          <div className="">
+            <div>Likes: {content.likes}</div>
+            <div
+              id="comments-nbr"
+              onClick={() => {
+                setAreCommentsDisplayed(!areCommentsDisplayed);
+              }}
+            >
+              Comments: {content.comments.length}
+            </div>
+          </div>
           <div>
+            <button
+              className="submit-btn"
+              id="comment-btn"
+              type="button"
+              onClick={() => handleComments(content.id)}
+            >
+              Commenter
+            </button>
             <button
               className="submit-btn"
               id="like-btn"
@@ -35,6 +62,27 @@ function NewsFeed({ content, handleLikes }) {
             </button>
           </div>
         </div>
+        {areCommentsDisplayed
+          ? content.comments.map((comment) => {
+              return (
+                <section id="comment">
+                  <NewsFeed
+                    content={{
+                      id: 0,
+                      user: "Basile",
+                      text: comment.content,
+                      image: "",
+                      likes: 1,
+                      isLiked: false,
+                      comments: [],
+                    }}
+                    handleLikes={(likes) => handleLikes(likes)}
+                    handleComments={(comment) => handleComments(comment)}
+                  />
+                </section>
+              );
+            })
+          : ""}
       </div>
     </>
   );

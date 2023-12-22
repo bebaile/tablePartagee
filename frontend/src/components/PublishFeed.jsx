@@ -6,6 +6,8 @@ import api from "@services/services";
 function PublishFeed() {
   // Etat du liveFeed
 
+  const [isComment, setIsComment] = useState(false);
+
   // console.log(content);
   const [liveFeed, setLiveFeed] = useState(content);
   const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
@@ -38,6 +40,11 @@ function PublishFeed() {
     }
     tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
     setLiveFeed(tmpLiveFeed);
+  };
+
+  const handleComments = (postId) => {
+    const tmpLiveFeed = [...liveFeed];
+    const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
   };
 
   const handleSubmit = (e) => {
@@ -73,7 +80,10 @@ function PublishFeed() {
         id: liveFeed.length + 1,
         user: "Basile",
         text: publishContent.text,
-        imageUrl: uploadedFileUrl,
+        likes: 0,
+        isLiked: false,
+        // imageUrl: uploadedFileUrl,
+        comments: [],
       },
     ]);
     setTextAreaValue("");
@@ -110,6 +120,7 @@ function PublishFeed() {
           </form>
         </div>
       </div>
+
       <div className="container">
         {liveFeed.map((item) => {
           return (
@@ -117,6 +128,9 @@ function PublishFeed() {
               content={item}
               key={item.id}
               handleLikes={(likes) => handleLikes(likes)}
+              handleComments={(comment) => handleComments(comment)}
+              isComment={isComment}
+              setIsComment={setIsComment}
             />
           );
         })}

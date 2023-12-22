@@ -28,29 +28,38 @@ function PublishFeed() {
     // setUploadedFileUrl(`../../backend/uploads/${e.target.files[0].name}`);
   };
 
+  const handleLikes = (postId) => {
+    const tmpLiveFeed = [...liveFeed];
+    const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
+    tmpLiveFeed[arrayIndex].likes += 1;
+    setLiveFeed(tmpLiveFeed);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // upload file
-    const url = "/uploadFile";
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("imageName", image.name);
-    const config = {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    };
-    console.error(formData);
-    api
-      .post(url, formData, config)
-      .then((response) => {
-        console.error(uploadedFileUrl);
-        setUploadedFileUrl(response.data.fileUrl);
-      })
-      .catch((error) => {
-        console.error("Erreur d'upload: ", error);
-      });
+    if (image != null) {
+      const url = "/uploadFile";
+      const formData = new FormData();
+      formData.append("image", image);
+      formData.append("imageName", image.name);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+      console.error(formData);
+      api
+        .post(url, formData, config)
+        .then((response) => {
+          console.error(uploadedFileUrl);
+          setUploadedFileUrl(response.data.fileUrl);
+        })
+        .catch((error) => {
+          console.error("Erreur d'upload: ", error);
+        });
+    }
 
     // update livefeeed
     setLiveFeed([
@@ -98,7 +107,13 @@ function PublishFeed() {
       </div>
       <div className="container">
         {liveFeed.map((item) => {
-          return <NewsFeed content={item} key={item.id} />;
+          return (
+            <NewsFeed
+              content={item}
+              key={item.id}
+              handleLikes={(likes) => handleLikes(likes)}
+            />
+          );
         })}
       </div>
     </>

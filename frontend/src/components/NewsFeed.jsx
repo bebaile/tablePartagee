@@ -25,17 +25,14 @@ function NewsFeed({
 
   const postComment = (e) => {
     e.preventDefault();
-    setLiveFeed([
-      {
-        id: liveFeed.length + 1,
-        user: "Basile",
-        text: textAreaValue,
-        likes: 0,
-        isLiked: false,
-        comments: [],
-      },
-      ...liveFeed,
-    ]);
+    console.error(textAreaValue);
+    const tmpLiveFeed = [...liveFeed];
+    tmpLiveFeed[content.id].comments = [
+      { id: tmpLiveFeed[content.id].comments.length, content: textAreaValue },
+      ...tmpLiveFeed[content.id].comments,
+    ];
+
+    setLiveFeed(tmpLiveFeed);
     setTextAreaValue("");
     setIsPostingComment(false);
   };

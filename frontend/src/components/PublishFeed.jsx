@@ -106,14 +106,7 @@ function PublishFeed() {
               />
             </div>
             <div className="submit">
-              <input
-                type="file"
-                className="add-picture"
-                accept="image/*"
-                name="image-upload"
-                // multiple
-                onChange={handleImageChange}
-              ></input>
+              <div></div>
 
               <button className="submit-btn" type="submit">
                 Publier

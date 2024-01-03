@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  --content-width: clamp(365px, 1024px, 100vw - 1rem);
+}
+
+.container {
+  width: var(--content-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 15px;
+  box-shadow: 1rem 1rem 2rem rgba(216, 216, 216, 0.631);
+  margin: 10px;
+  padding: 0;
+}
+
+h2 {
+  font-size: 1.3rem;
+  padding: 10px;
+}
+
+.publish-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+}
+
+.input-text {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px red solid;
+  outline: none;
+  resize: auto;
+  padding: 5px;
+  resize: vertical;
+}
+
+.submit,
+.submit-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+
+.submit-comment {
+  justify-content: flex-end;
+}
+
+.add-picture {
+  border: 0;
+  background-color: white;
+}
+
+.icon {
+  width: 2rem;
+  filter: invert(50%);
+}
+
+.icon:hover,
+icon:active {
+  filter: invert(0%);
+  cursor: pointer;
+  background-color: initial;
+}
+
+.submit-btn {
+  background: #ff4742;
+  border: 1px solid #ff4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1rem;
+  min-height: 30px;
+  outline: 0;
+  padding: 2px 7px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+.submit-btn:hover,
+.submit-btn:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #ff4742;
+}
+
+.button-24:active {
+  opacity: 0.5;
+}
+
+/* NewsFeed */
+
+.news-feed {
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 100%;
+}
+
+h3 {
+  display: inline;
+}
+
+#content,
+.comments {
+  margin: 10px;
+  padding: 10px;
+  border: 1px dotted gray;
+  border-radius: 10px;
+  display: flex;
+}
+
+.illustration {
+  width: 100px;
+}
+
+.reactions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 0.8rem;
+}
+
+#comments-nbr {
+  cursor: pointer;
+}
+
+#comment-btn,
+#like-btn {
+  background-color: rgb(0, 119, 255);
+  border: 1px solid blue;
+  min-height: 20px;
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-left: 10px;
+}
+
+#comment {
+  background-color: hsla(0, 4%, 85%, 0.462);
+  margin: 10px 10px 10px 20px;
+  border-radius: 10px;
+}

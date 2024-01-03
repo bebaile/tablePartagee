@@ -1,36 +1,15 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "@components/Navbar";
-import Fiche from "@pages/Fiche";
-import Login from "@pages/Login";
-import Admin from "@pages/Admin";
-import PrivateRoute from "@services/PrivateRoute";
-
-import "./App.css";
+import PublishFeed from "@components/PublishFeed";
+import "./style.css";
 
 function App() {
-  const [isApointmentDisplayed, setIsApointmentDisplayed] = useState(false);
-  const [isUserAccountDisplayed, setIsUserAccountDisplayed] = useState(false);
   return (
     <Router>
       <div className="App">
-        {/* <Navbar
-          isApointmentDisplayed={isApointmentDisplayed}
-          setIsApointmentDisplayed={setIsApointmentDisplayed}
-          setIsUserAccountDisplayed={setIsUserAccountDisplayed}
-          isUserAccountDisplayed={isUserAccountDisplayed}
-        /> */}
+        {/* <Navbar /> */}
         <Routes>
-          <Route path="/" element={<Fiche />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute>
-                <Admin />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/" element={<PublishFeed />} />
         </Routes>
       </div>
     </Router>

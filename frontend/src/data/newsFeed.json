@@ -1,0 +1,109 @@
+[
+  {
+    "id": 1,
+    "user": "Alice",
+    "text": "Salut tout le monde ! Je cherche des conseils pour améliorer mes compétences en pâtisserie. Des suggestions ? 🍰",
+    "image": "lien_vers_image1.jpg",
+    "likes": 23,
+    "isLiked": false,
+    "comments": []
+  },
+  {
+    "id": 2,
+    "user": "Bob",
+    "text": "Bonjour à tous ! J'ai essayé une nouvelle recette de soupe aux légumes hier soir. Quelqu'un veut la recette ? 😊",
+    "image": "lien_vers_image2.jpg",
+    "likes": 16,
+    "isLiked": false,
+    "comments": []
+  },
+  {
+    "id": 3,
+    "user": "Claire",
+    "text": "Coucou ! J'ai besoin d'aide pour choisir un bon couteau de chef. Des recommandations ? 🔪",
+    "image": "",
+    "likes": 2,
+    "isLiked": false,
+    "comments": [
+      {
+        "id": 0,
+        "content": "Salut ! Pour un couteau de chef, je recommande vivement la marque XYZ. J'utilise leur modèle ABC depuis un moment, et c'est un véritable bijou en cuisine. Très tranchant et durable ! 🔪✨"
+      },
+      {
+        "id": 1,
+        "content": "Hello ! J'ai récemment investi dans un couteau japonais de la marque DEF, et je suis vraiment impressionné par sa netteté et son équilibre. Ça vaut la peine d'y jeter un coup d'œil ! 👀🔪"
+      },
+      {
+        "id": 2,
+        "content": "Eh bien, le choix d'un bon couteau dépend de tes préférences personnelles. As-tu une préférence pour un certain type de lame ou de manche ? Cela pourrait aider la communauté à te donner des recommandations plus précises. 👨‍🍳🔪"
+      },
+      {
+        "id": 3,
+        "content": "Salut ! Je suis un peu perplexe en ce qui concerne les couteaux de chef, mais si tu trouves quelque chose de bien, fais-le moi savoir ! J'aimerais aussi investir dans un bon couteau. 🤷‍♂️🔪"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "user": "David",
+    "text": "Hello, les chefs ! J'ai découvert une astuce pour rendre les pâtes plus savoureuses. Qui veut la connaître ? 🍝",
+    "image": "lien_vers_image3.jpg",
+    "likes": 3,
+    "isLiked": true,
+    "comments": []
+  },
+  {
+    "id": 5,
+    "user": "Eva",
+    "text": "Salutations ! Quelqu'un a des idées pour des plats végétariens originaux ? Partagez vos recettes ! 🌱",
+    "image": "",
+    "likes": 0,
+    "isLiked": false,
+    "comments": []
+  },
+  {
+    "id": 6,
+    "user": "Frank",
+    "text": "Salut les gourmets ! Je recherche des astuces pour réussir une cuisson parfaite du poisson. Des conseils ? 🐟",
+    "image": "lien_vers_image4.jpg",
+    "likes": 12,
+    "isLiked": true,
+    "comments": []
+  },
+  {
+    "id": 7,
+    "user": "Grace",
+    "text": "Bonjour à tous ! J'ai une question sur la fermentation des aliments. Des experts ici ? 🥬",
+    "image": "",
+    "likes": 9,
+    "isLiked": true,
+    "comments": []
+  },
+  {
+    "id": 8,
+    "user": "Hugo",
+    "text": "Hey ! Je viens de réaliser une tarte aux pommes. Qui veut une part virtuelle ? 🍏",
+    "image": "lien_vers_image5.jpg",
+    "likes": 2,
+    "isLiked": false,
+    "comments": []
+  },
+  {
+    "id": 9,
+    "user": "Iris",
+    "text": "Coucou la communauté ! J'ai réussi à faire des macarons. Besoin de conseils pour les parfums. Des idées ? 🎂",
+    "image": "lien_vers_image6.jpg",
+    "likes": 7,
+    "isLiked": true,
+    "comments": []
+  },
+  {
+    "id": 10,
+    "user": "Jack",
+    "text": "Salut à tous ! Je suis en quête d'idées pour des snacks sains et délicieux. Des suggestions ? 🥦",
+    "image": "",
+    "likes": 3,
+    "isLiked": false,
+    "comments": []
+  }
+]

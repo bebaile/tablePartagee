@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PublishFeed from "./PublishFeed";
 
 function NewsFeed({
   content,
@@ -10,8 +11,31 @@ function NewsFeed({
   //   console.error(typeof content.imageUrl);
   //   console.error(content.imageUrl);
   //   console.error(content.comments);
+  //   console.error(content.comments);
 
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
+  const [isPostingComment, setIsPostingComment] = useState(false);
+  const [textAreaValue, setTextAreaValue] = useState("");
+  const [liveFeed, setLiveFeed] = useState(content.comments);
+
+  const updateContent = (e) => {
+    console.error(e.target.value);
+    setTextAreaValue(e.target.value);
+  };
+
+  const postComment = (e) => {
+    e.preventDefault();
+    console.error(textAreaValue);
+    const tmpLiveFeed = [...liveFeed];
+    tmpLiveFeed[content.id].comments = [
+      { id: tmpLiveFeed[content.id].comments.length, content: textAreaValue },
+      ...tmpLiveFeed[content.id].comments,
+    ];
+
+    setLiveFeed(tmpLiveFeed);
+    setTextAreaValue("");
+    setIsPostingComment(false);
+  };
 
   return (
     <>
@@ -48,7 +72,7 @@ function NewsFeed({
               className="submit-btn"
               id="comment-btn"
               type="button"
-              onClick={() => handleComments(content.id)}
+              onClick={() => setIsPostingComment(!isPostingComment)}
             >
               Commenter
             </button>
@@ -62,8 +86,34 @@ function NewsFeed({
             </button>
           </div>
         </div>
+        {/* section publier un commentaire */}
+        {isPostingComment ? (
+          <div className="posting-comment">
+            <div className="publish-form">
+              <form onSubmit={postComment} method="post">
+                <div className="input-text">
+                  <textarea
+                    name="content"
+                    onChange={updateContent}
+                    id="input-text"
+                    value={textAreaValue}
+                  />
+                </div>
+                <div className="submit-comment">
+                  <button className="submit-btn" type="submit">
+                    Publier
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {/* sections commentaires */}
         {areCommentsDisplayed
-          ? content.comments.map((comment) => {
+          ? liveFeed.map((comment) => {
               return (
                 <section id="comment">
                   <NewsFeed

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import NewsFeed from "./NewsFeed";
 import content from "../data/newsFeed.json";
 import api from "@services/services";
@@ -75,7 +76,6 @@ function PublishFeed() {
 
     // update livefeeed
     setLiveFeed([
-      ...liveFeed.reverse(),
       {
         id: liveFeed.length + 1,
         user: "Basile",
@@ -85,6 +85,7 @@ function PublishFeed() {
         // imageUrl: uploadedFileUrl,
         comments: [],
       },
+      ...liveFeed.reverse(),
     ]);
     setTextAreaValue("");
   };
@@ -93,6 +94,7 @@ function PublishFeed() {
     <>
       <div className="container">
         <h2>Que voulez vous partager aujourd'hui ?</h2>
+
         <div className="publish-form">
           <form onSubmit={handleSubmit} method="post">
             <div className="input-text">

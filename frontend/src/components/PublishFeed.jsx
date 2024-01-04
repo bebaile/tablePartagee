@@ -91,7 +91,7 @@ function PublishFeed() {
   };
 
   return (
-    <>
+    <div>
       <div className="container">
         <h2>Que voulez vous partager aujourd'hui ?</h2>
 
@@ -137,7 +137,7 @@ function PublishFeed() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -6,15 +6,15 @@ function Connexion() {
   const [isSubscribing, setIsSubscribing] = useState(true);
   const [arePasswordEqual, setArePasswordEqual] = useState(true);
   const [alert, setAlert] = useState({
-    type: "button",
-    message: "> Je souhaite m'inscrire",
+    type: "announce",
+    message: "",
   });
   const [credentials, setCredentials] = useState({
     email: "",
     firstname: "",
     lastname: "",
     pseudo: "",
-    company: "",
+    birthdate: "",
     password: "",
     confirmedPassword: "",
   });
@@ -30,6 +30,17 @@ function Connexion() {
   return (
     <>
       <div className="container">
+        <div
+          className={
+            alert.type === "alert"
+              ? "alert"
+              : alert.type === "announce"
+              ? "announce"
+              : ""
+          }
+        >
+          {alert.message}
+        </div>
         <form>
           <label htmlFor="firstname">
             <div>Prénom :</div>
@@ -105,6 +116,20 @@ function Connexion() {
               />
             </div>
           </label>
+          <label htmlFor="birthdate">
+            <div>Date de naissance :</div>
+            <div>
+              <input
+                type="text"
+                id="birthdate"
+                name="birthdate"
+                placeholder="Entrez votre date de naissance"
+                onChange={(e) => {
+                  setCredentials({ ...credentials, birthdate: e.target.value });
+                }}
+              />
+            </div>
+          </label>
 
           <label htmlFor="password">
             <div>Mot de passe :</div>
@@ -140,6 +165,19 @@ function Connexion() {
                     ...credentials,
                     confirmedPassword: e.target.value,
                   });
+                }}
+                onBlur={(e) => {
+                  if (e.target.value !== credentials.password) {
+                    setAlert({
+                      type: "alert",
+                      message: "Vos mots de passes ne correspondent pas",
+                    });
+                  } else {
+                    setAlert({
+                      type: "announce",
+                      message: "",
+                    });
+                  }
                 }}
               />
             </div>

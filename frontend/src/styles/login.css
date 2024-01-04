@@ -3,6 +3,11 @@
   --button-color: #2ea44f;
 }
 
+.alert,
+.announce {
+  margin: 0.5rem;
+}
+
 .alert {
   color: red;
 }

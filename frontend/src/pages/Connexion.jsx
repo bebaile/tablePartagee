@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "@services/services";
 import "../styles/login.css";
 
 function Connexion() {
@@ -21,7 +22,28 @@ function Connexion() {
 
   const navigate = useNavigate();
 
-  const checkEmail = (e) => {};
+  const checkEmail = (e) => {
+    api
+      .get(`/users/check/${e.target.value}`)
+      .then((result) => {
+        setAlert({ type: "announce", message: "" });
+        console.error(result.status);
+      })
+      .catch((error) => {
+        console.error(error.response.status);
+        if (error.response.status === 409) {
+          setAlert({ type: "alert", message: "L'utilisateur existe déjà" });
+          // e.target.value = "";
+        }
+        if (error.response.status === 404) {
+          setAlert({
+            type: "announce",
+            message: "Cet identifiant est disponible",
+          });
+          console.error("Cet identifiant est disponible");
+        }
+      });
+  };
 
   const handleSubmit = () => {
     console.error(credentials);
@@ -120,7 +142,7 @@ function Connexion() {
             <div>Date de naissance :</div>
             <div>
               <input
-                type="text"
+                type="date"
                 id="birthdate"
                 name="birthdate"
                 placeholder="Entrez votre date de naissance"

@@ -3,8 +3,7 @@ const models = require("../models");
 const { returnUuid, hashPassword } = require("../helpers/auth");
 
 const browse = (req, res) => {
-  models.user
-    .findAll()
+  models.Utilisateur.findAll()
     .then(([rows]) => {
       res.send(rows);
     })
@@ -16,8 +15,7 @@ const browse = (req, res) => {
 
 // utilisé pour vérifier l'existence d'un utilisateur
 const checkUserExist = (req, res) => {
-  models.user
-    .findByLogin(req.params.id)
+  models.Utilisateur.findByLogin(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res
@@ -74,17 +72,18 @@ const edit = (req, res) => {
 };
 
 const add = (req, res) => {
-  const { email, firstname, lastname, company, password } = req.body;
+  const { email, firstname, lastname, pseudo, birthdate, password } = req.body;
   const user = req.body;
 
   const { error } = Joi.object({
     email: Joi.string().email().max(255).required(),
-    firstname: Joi.string().max(20).required(),
-    lastname: Joi.string().max(20).required(),
-    company: Joi.string().max(45).required(),
+    firstname: Joi.string().max(20),
+    lastname: Joi.string().max(20),
+    pseudo: Joi.string().max(45),
+    birthdate: Joi.string().max(45),
     password: Joi.string().max(255).required(),
   }).validate(
-    { email, firstname, lastname, company, password },
+    { email, firstname, lastname, pseudo, birthdate, password },
     { abortEarly: true }
   );
 

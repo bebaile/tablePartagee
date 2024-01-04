@@ -45,8 +45,73 @@ function Connexion() {
       });
   };
 
+  const checkFilledInputs = () => {
+    const checkedValues = [];
+    for (const key in credentials) {
+      // sans cette condition, on va aussi parcourir les propriétés du prototype
+      // eslint-disable-next-line no-prototype-builtins
+      if (credentials.hasOwnProperty(key)) {
+        if (credentials[key] === "") {
+          checkedValues.push(key);
+        }
+      }
+    }
+
+    return checkedValues;
+  };
+
   const handleSubmit = () => {
     console.error(credentials);
+
+    if (isSubscribing === true) {
+      // si tous les champs sont remplis, on peut procéder à la création de l'utilisateur
+      if (checkFilledInputs().length === 0) {
+        if (credentials.password !== credentials.confirmedPassword) {
+          setArePasswordEqual(false);
+          setAlert({ type: "alert", message: "Mots de passes différents" });
+        } else {
+          api
+            .post("/users/create", {
+              email: credentials.email,
+              firstname: credentials.firstname,
+              lastname: credentials.lastname,
+              pseudo: credentials.pseudo,
+              birthdate: credentials.birthdate,
+              password: credentials.password,
+            })
+            .then((result) => {
+              if (result.data === "Created") {
+                setAlert({
+                  type: "announce",
+                  message: "Utilisateur créé avec succès",
+                });
+                setTimeout(() => {
+                  setIsSubscribing(false);
+                }, 3000);
+              }
+            })
+            .catch((error) => {
+              if (error.response.status === 409) {
+                setAlert({
+                  type: "alert",
+                  message: "Utilisateur déjà existant",
+                });
+              }
+              if (error.response.status === 422) {
+                console.error(error.response.statusText);
+              }
+            });
+        }
+      }
+      // mais si un des champs est manquant, il faut le signaler
+      else {
+        setAlert({
+          type: "alert",
+          message: `Remplissez bien tous les champs`,
+        });
+        console.error(checkFilledInputs());
+      }
+    }
   };
 
   return (

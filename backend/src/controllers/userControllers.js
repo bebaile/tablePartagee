@@ -34,8 +34,7 @@ const checkUserExist = (req, res) => {
 
 const read = (req, res) => {
   console.error(req.params.id);
-  models.user
-    .findByLogin(req.params.id)
+  models.Utilisateur.findByLogin(req.params.id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);
@@ -56,8 +55,7 @@ const edit = (req, res) => {
 
   item.id = req.params.id;
 
-  models.user
-    .update(item)
+  models.Utilisateur.update(item)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -93,8 +91,7 @@ const add = (req, res) => {
     hashPassword(req.body.password).then((hashedPassword) => {
       req.body.password = hashedPassword;
       const uuid = returnUuid();
-      models.user
-        .insert(uuid, user)
+      models.Utilisateur.insert(uuid, user)
         .then(([result]) => {
           res.location(`/users/${result.insertId}`).sendStatus(201);
         })

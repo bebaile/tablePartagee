@@ -41,16 +41,24 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://192.168.31.84:3002",
-      "http://localhost:3002",
-      "http://tablepartage.ddns.net:81",
-    ],
-    methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "PATCH"],
+    origin: "*",
     optionsSuccessStatus: 200,
-    credentials: true,
+    // credentials: true,
   })
 );
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://192.168.31.84:3002",
+//       "http://localhost:3002",
+//       "http://tablepartage.ddns.net:81",
+//     ],
+//     methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "PATCH"],
+//     optionsSuccessStatus: 200,
+//     credentials: true,
+//   })
+// );
 
 app.use(express.json());
 app.use(cookieParser());

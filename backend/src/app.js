@@ -50,6 +50,7 @@ const app = express();
 app.use(
   cors({
     origin: [
+      "http://192.168.31.10:3002",
       "http://192.168.31.84:3002",
       "http://localhost:3002",
       "http://tablepartage.ddns.net:81",

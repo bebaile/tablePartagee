@@ -46,9 +46,9 @@ app.use(
       "http://localhost:3002",
       "http://tablepartage.ddns.net:81",
     ],
+    methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "PATCH"],
     optionsSuccessStatus: 200,
     credentials: true,
-    methods: ["GET", "PUT", "POST", "DELETE", "HEAD", "PATCH"],
   })
 );
 

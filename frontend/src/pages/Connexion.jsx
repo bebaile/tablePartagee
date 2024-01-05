@@ -87,6 +87,7 @@ function Connexion() {
                 });
                 setTimeout(() => {
                   setIsSubscribing(false);
+                  navigate("/login");
                 }, 3000);
               }
             })

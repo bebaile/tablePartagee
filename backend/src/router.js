@@ -17,6 +17,7 @@ router.post("/uploadFile", fileControllers.add);
 router.get("/users/check/:id", userControllers.checkUserExist);
 router.post("/users/create", userExist, userControllers.add);
 router.post("/auth", authControllers.session);
+router.post("/logout", authControllers.logout);
 
 // const availabilityControllers = require("./controllers/availabilityControllers");
 // const messagesControllers = require("./controllers/messagesControllers");
@@ -25,7 +26,6 @@ router.post("/auth", authControllers.session);
 // // routes non sécurisées
 // router.get("/availability", availabilityControllers.browse);
 // router.get("/availability/:id", availabilityControllers.read);
-// router.post("/logout", authControllers.logout);
 // router.post("/messages", messagesControllers.add);
 // router.post("/apointment", apointmentControllers.add);
 // router.post("/availability", availabilityControllers.add);

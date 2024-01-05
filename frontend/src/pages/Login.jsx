@@ -111,6 +111,14 @@ function Login() {
               Connexion
             </button>
           </label>
+          <section
+            id="create-account"
+            onClick={() => {
+              navigate("/connexion");
+            }}
+          >
+            Pas encore de compte ?{" "}
+          </section>
         </form>
       </div>
     </>

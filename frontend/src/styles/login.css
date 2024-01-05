@@ -39,6 +39,17 @@ input {
   border: 1px solid red;
 }
 
+#create-account {
+  text-align: center;
+  font-size: small;
+  margin-bottom: 1rem;
+}
+
+#create-account:hover {
+  color: blue;
+  cursor: pointer;
+}
+
 .connect-btn a {
   text-decoration: none;
   color: white;

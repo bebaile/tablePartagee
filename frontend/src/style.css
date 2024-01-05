@@ -7,8 +7,27 @@
 
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   min-width: 350px;
+}
+
+.navbar {
+  width: var(--content-width);
+  padding: 0.5rem 1rem;
+  margin: 0;
+  z-index: 6;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hidden-navbar {
+  display: none;
+}
+
+#pseudo {
+  font-weight: bold;
 }
 
 .container {

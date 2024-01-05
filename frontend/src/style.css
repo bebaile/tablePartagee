@@ -30,6 +30,11 @@
   font-weight: bold;
 }
 
+.connect-btn-navbar:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .container {
   width: var(--content-width);
   display: flex;

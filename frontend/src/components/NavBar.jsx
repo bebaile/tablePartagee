@@ -12,12 +12,12 @@ function NavBar() {
 
   // Cache la bare de navigation si l'on fait défiler la page
   const [isNavBarVisible, setIsNavBarVisible] = useState(true);
-  document.addEventListener("scroll", () => {
-    setIsNavBarVisible(false);
-    setTimeout(() => {
-      setIsNavBarVisible(true);
-    }, 1000);
-  });
+  // document.addEventListener("scroll", () => {
+  //   setIsNavBarVisible(false);
+  //   setTimeout(() => {
+  //     setIsNavBarVisible(true);
+  //   }, 1000);
+  // });
 
   const handleDisconnect = () => {
     api.post("/logout").then(() => {
@@ -34,16 +34,29 @@ function NavBar() {
 
   return (
     <>
-      <div className="container">
-        <div className={isNavBarVisible ? "navbar" : "hidden-navbar"}>
+      <div className={location.pathname === "/" ? "container" : null}>
+        <div
+          className={
+            isNavBarVisible && location.pathname === "/"
+              ? "navbar"
+              : "hidden-navbar"
+          }
+        >
           <div id="pseudo">
             {isConnected ? sessionStorage.getItem("pseudo") : null}
           </div>
-          <div>
+          <div className="connect-btn-navbar">
             {isConnected ? (
               <div onClick={handleDisconnect}>Se déconnecter</div>
             ) : (
-              <div>Se connecter</div>
+              <div
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                {" "}
+                Se connecter
+              </div>
             )}
           </div>
         </div>

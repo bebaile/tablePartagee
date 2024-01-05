@@ -2,6 +2,7 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const fileControllers = require("./controllers/fileControllers");
 const userControllers = require("./controllers/userControllers");
+const authControllers = require("./controllers/authControllers");
 const {
   userExist,
   //   checkAdmin,
@@ -15,8 +16,8 @@ router.use(fileUpload());
 router.post("/uploadFile", fileControllers.add);
 router.get("/users/check/:id", userControllers.checkUserExist);
 router.post("/users/create", userExist, userControllers.add);
+router.post("/auth", authControllers.session);
 
-// const authControllers = require("./controllers/authControllers");
 // const availabilityControllers = require("./controllers/availabilityControllers");
 // const messagesControllers = require("./controllers/messagesControllers");
 // const apointmentControllers = require("./controllers/apointmentControllers");
@@ -24,7 +25,6 @@ router.post("/users/create", userExist, userControllers.add);
 // // routes non sécurisées
 // router.get("/availability", availabilityControllers.browse);
 // router.get("/availability/:id", availabilityControllers.read);
-// router.post("/auth", authControllers.session);
 // router.post("/logout", authControllers.logout);
 // router.post("/messages", messagesControllers.add);
 // router.post("/apointment", apointmentControllers.add);

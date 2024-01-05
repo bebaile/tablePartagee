@@ -10,27 +10,27 @@ const app = express();
 
 // use some application-level middlewares
 
-app.use(
-  cors({
-    origin: "*",
-    optionsSuccessStatus: 200,
-    // credentials: true,
-  })
-);
-
 // app.use(
 //   cors({
-//     origin: [
-//       "http://192.168.31.10:3002",
-//       "http://192.168.31.84:3002",
-//       "http://localhost:3002",
-//       "http://tablepartage.ddns.net:81",
-//     ],
-
+//     origin: "*",
 //     optionsSuccessStatus: 200,
-//     credentials: true,
+//     // credentials: true,
 //   })
 // );
+
+app.use(
+  cors({
+    origin: [
+      "http://192.168.31.10:3002",
+      "http://192.168.31.84:3002",
+      "http://localhost:3002",
+      "http://tablepartage.ddns.net:81",
+    ],
+
+    optionsSuccessStatus: 200,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());

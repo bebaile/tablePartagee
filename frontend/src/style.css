@@ -2,7 +2,13 @@
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-  --content-width: clamp(365px, 1024px, 100vw - 1rem);
+  --content-width: clamp(350px, 1024px, 100vw - 1rem);
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  min-width: 350px;
 }
 
 .container {

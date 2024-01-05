@@ -12,12 +12,6 @@
   --item-selected: hsla(225, 100%, 50%, 0.413);
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
 /* nabvar */
 
 #opacity-navbar {

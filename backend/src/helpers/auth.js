@@ -122,8 +122,7 @@ const refreshToken = (req, res, next) => {
 // utilisé avant la création d'un utilisateur
 const userExist = (req, res, next) => {
   const { email } = req.body;
-  models.user
-    .findByLogin(email)
+  models.Utilisateur.findByLogin(email)
     .then(([rows]) => {
       if (rows[0] == null) {
         console.error("l'identifiant n'existe pas, c'est bon");

@@ -1,20 +1,21 @@
 const AbstractManager = require("./AbstractManager");
 
-class UserManager extends AbstractManager {
+class UtilisateurManager extends AbstractManager {
   constructor() {
-    super({ table: "user" });
+    super({ table: "Utilisateur" });
   }
 
   // création d'un utilisateur
   insert(uuid, item) {
     return this.connection.query(
-      `insert into ${this.table} (id_user, email, firstname, lastname, company, password) values (?,?,?,?,?,?)`,
+      `insert into ${this.table} (ID_Utilisateur, Email, Prenom_Utilisateur, Nom_Utilisateur, Pseudo_Utilisateur, Naissance_Utilisateur, Mot_de_passe) values (?,?,?,?,?,?,?)`,
       [
         uuid,
         item.email,
         item.firstname,
         item.lastname,
-        item.company,
+        item.pseudo,
+        item.birthdate,
         item.password,
       ]
     );
@@ -37,30 +38,30 @@ class UserManager extends AbstractManager {
 
   update(item) {
     return this.connection.query(
-      `update ${this.table} SET firstname = ?, email = ?, company = ? WHERE email = ?`,
-      [item.firstname, item.email, item.company, item.id]
+      `update ${this.table} SET Prenom_Utilisateur = ?, Email = ?, Pseudo_Utilisateur = ?, Naissance_Utilisateur = ? WHERE Email = ?`,
+      [item.firstname, item.email, item.pseudo, item.birthdate, item.id]
     );
   }
 
   findByLogin(email) {
     return this.connection.query(
-      `SELECT * FROM ${this.table} WHERE email = ?`,
+      `SELECT * FROM ${this.table} WHERE Email = ?`,
       [email]
     );
   }
 
   findIdByEmail(email) {
     return this.connection.query(
-      `SELECT id_user FROM ${this.table} WHERE email = ?`,
+      `SELECT ID_Utilisateur FROM ${this.table} WHERE Email = ?`,
       [email]
     );
   }
 
   deleteByEmail(id) {
-    return this.connection.query(`DELETE FROM ${this.table} WHERE email = ?`, [
+    return this.connection.query(`DELETE FROM ${this.table} WHERE Email = ?`, [
       id,
     ]);
   }
 }
 
-module.exports = UserManager;
+module.exports = UtilisateurManager;

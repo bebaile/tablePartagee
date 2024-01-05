@@ -3,20 +3,31 @@ const { verifyPassword, createToken } = require("../helpers/auth");
 
 const session = (req, res) => {
   const { email, password } = req.body;
-  models.user
-    .findByLogin(email)
+  models.Utilisateur.findByLogin(email)
     .then((rows) => {
-      if (rows === 0 || rows[0][0].type === "guest") {
+      if (rows === 0) {
         res.status(401).send("login ou mot de passe incorrect");
       } else {
-        verifyPassword(password, rows[0][0].password).then((isVerified) => {
+        verifyPassword(password, rows[0][0].Mot_de_passe).then((isVerified) => {
           if (isVerified) {
-            const { firstname, lastname, company, type } = rows[0][0];
+            const {
+              // eslint-disable-next-line camelcase
+              Prenom_Utilisateur,
+              // eslint-disable-next-line camelcase
+              Nom_Utilisateur,
+              // eslint-disable-next-line camelcase
+              Pseudo_Utilisateur,
+              type,
+            } = rows[0][0];
+
             const token = createToken({
-              firstname,
-              lastname,
+              // eslint-disable-next-line camelcase
+              firstname: Prenom_Utilisateur,
+              // eslint-disable-next-line camelcase
+              lastname: Nom_Utilisateur,
               email,
-              company,
+              // eslint-disable-next-line camelcase
+              pseudo: Pseudo_Utilisateur,
               type,
             });
             res
@@ -30,9 +41,12 @@ const session = (req, res) => {
                 message: "utilisateur authentifié",
                 cookie: token,
                 email,
-                firstname,
-                lastname,
-                company,
+                // eslint-disable-next-line camelcase
+                firstname: Prenom_Utilisateur,
+                // eslint-disable-next-line camelcase
+                lastname: Nom_Utilisateur,
+                // eslint-disable-next-line camelcase
+                pseudo: Pseudo_Utilisateur,
                 type,
               });
           } else {

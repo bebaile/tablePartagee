@@ -1,17 +1,64 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect, useContext } from "react";
 import NewsFeed from "./NewsFeed";
+import Context from "../context/Context";
 import content from "../data/newsFeed.json";
 import api from "@services/services";
 
 function PublishFeed() {
+  const { isConnected, setIsConnected, infoUser, setInfoUser } =
+    useContext(Context);
+  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+  const [update, setUpdate] = useState(false);
+
   // Etat du liveFeed
+
+  useEffect(() => {
+    api
+      .get(`/posts`)
+      .then((result) => {
+        console.log(result.data);
+        const tmpArray = [...result.data];
+        setPosts(
+          tmpArray
+            .map((post) => {
+              return {
+                id: post.ID_Post,
+                user: post.Pseudo_Utilisateur,
+                text: post.Contenu,
+                image: "",
+                likes: "",
+                isLiked: false,
+                comments: [],
+              };
+            })
+            .reverse()
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [update]);
 
   const [isComment, setIsComment] = useState(false);
 
   // console.log(content);
-  const [liveFeed, setLiveFeed] = useState(content);
+  const [liveFeed, setLiveFeed] = useState();
   const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
+
+  useEffect(() => {
+    if (posts.length !== 0) {
+      console.log(posts);
+      setLiveFeed([...posts, ...content]);
+    }
+  }, [posts]);
+
+  useEffect(() => {
+    if (typeof liveFeed !== "undefined") {
+      console.log([liveFeed]);
+      setIsLoading(false);
+    }
+  }, [liveFeed]);
 
   //   Etat du formulaire
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -75,18 +122,36 @@ function PublishFeed() {
     }
 
     // update livefeeed
-    setLiveFeed([
-      {
-        id: liveFeed.length + 1,
-        user: "Basile",
-        text: publishContent.text,
-        likes: 0,
-        isLiked: false,
-        // imageUrl: uploadedFileUrl,
-        comments: [],
-      },
-      ...liveFeed.reverse(),
-    ]);
+    const toBePosted = {
+      user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
+      text: publishContent.text,
+    };
+    console.log(toBePosted);
+    api
+      .post("/posts", toBePosted)
+      .then((result) => {
+        if (result.data === "Created") {
+          setUpdate(!update);
+        } else {
+          console.error();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    // setLiveFeed([
+    //   {
+    //     id: liveFeed.length + 1,
+    //     user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
+    //     text: publishContent.text,
+    //     likes: 0,
+    //     isLiked: false,
+    //     // imageUrl: uploadedFileUrl,
+    //     comments: [],
+    //   },
+    //   ...liveFeed.reverse(),
+    // ]);
     setTextAreaValue("");
   };
 
@@ -123,20 +188,24 @@ function PublishFeed() {
         </div>
       </div>
 
-      <div className="container">
-        {liveFeed.map((item) => {
-          return (
-            <NewsFeed
-              content={item}
-              key={item.id}
-              handleLikes={(likes) => handleLikes(likes)}
-              handleComments={(comment) => handleComments(comment)}
-              isComment={isComment}
-              setIsComment={setIsComment}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        ""
+      ) : (
+        <div className="container">
+          {liveFeed.map((item) => {
+            return (
+              <NewsFeed
+                content={item}
+                key={item.id}
+                handleLikes={(likes) => handleLikes(likes)}
+                handleComments={(comment) => handleComments(comment)}
+                isComment={isComment}
+                setIsComment={setIsComment}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

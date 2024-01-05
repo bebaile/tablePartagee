@@ -39,6 +39,7 @@ CREATE TABLE Post (
     Contenu TEXT,
     Date_Creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ID_Utilisateur BINARY(48),
+    Pseudo_Utilisateur varchar(45) NOT NULL,
     FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateur(ID_Utilisateur)
 );
 

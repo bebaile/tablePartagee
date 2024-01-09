@@ -17,6 +17,7 @@ function NewsFeed({
 
   const { isConnected } = useContext(Context);
   const [comments, setComments] = useState([]);
+  const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -27,14 +28,14 @@ function NewsFeed({
       .get(`/commentaire/${id}`)
       .then((results) => {
         console.log(results.data);
-        setComments(results.data);
+        setComments(results.data.reverse());
       })
       .catch((error) => {
         if (error.response.status === 404) {
           console.error(`Pas de commentaire à charger pour le post ${id}`);
         }
       });
-  }, []);
+  }, [updateRequired]);
 
   const updateContent = (e) => {
     console.error(e.target.value);
@@ -54,6 +55,7 @@ function NewsFeed({
       .then((result) => {
         if (result.data === "Created") {
           console.log("commentaire ajouté avec succès");
+          setUpdateRequired(!updateRequired);
         } else {
           console.error();
         }

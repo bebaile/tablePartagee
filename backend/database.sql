@@ -43,6 +43,19 @@ CREATE TABLE Post (
     FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateur(ID_Utilisateur)
 );
 
+CREATE TABLE Commentaire (
+    ID_Commentaire INT PRIMARY KEY AUTO_INCREMENT,
+    Contenu TEXT,
+    Date_Creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ID_Utilisateur BINARY(48),
+    ID_Post INT,
+    Pseudo_Utilisateur varchar(45) NOT NULL,
+    
+    FOREIGN KEY (ID_Utilisateur) REFERENCES Utilisateur(ID_Utilisateur),
+    FOREIGN KEY (ID_Post) REFERENCES Post(ID_Post)
+);
+
+
 -- Création de la table Recette
 CREATE TABLE Recette (
     ID_Recette INT PRIMARY KEY AUTO_INCREMENT,

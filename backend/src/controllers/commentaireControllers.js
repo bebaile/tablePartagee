@@ -12,9 +12,8 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  const { email } = req;
-  models.messages
-    .findById(req.id, email)
+  const postId = parseInt(req.params.postId, 10);
+  models.Commentaire.findById(postId)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);

@@ -13,10 +13,10 @@ class CommentaireManager extends AbstractManager {
     );
   }
 
-  findById(id, email) {
+  findById(postId) {
     return this.connection.query(
-      `SELECT m.*, r.* FROM ${this.table} AS m INNER JOIN meetingrequest AS r ON m.meeting_request_idmeeting_request = r.idmeeting_request WHERE user_id_user = ? OR recipient_email = ? ORDER BY m.create_time ASC`,
-      [id, email]
+      `SELECT * FROM ${this.table} WHERE ID_Post= ? ORDER BY Date_Creation ASC`,
+      [postId]
     );
   }
 

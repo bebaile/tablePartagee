@@ -24,6 +24,7 @@ router.post("/logout", authControllers.logout);
 router.get("/posts", postsControllers.browse);
 router.post("/posts", postsControllers.add);
 router.post("/commentaire", commentaireControllers.add);
+router.get("/commentaire/:postId", commentaireControllers.read);
 
 // const availabilityControllers = require("./controllers/availabilityControllers");
 // const messagesControllers = require("./controllers/messagesControllers");

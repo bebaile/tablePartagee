@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import api from "@services/services";
 import Context from "../context/Context";
 
@@ -16,10 +16,25 @@ function NewsFeed({
   //   console.error(content.comments);
 
   const { isConnected } = useContext(Context);
+  const [comments, setComments] = useState([]);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [liveFeed, setLiveFeed] = useState(content.comments);
+
+  useEffect(() => {
+    api
+      .get(`/commentaire/${id}`)
+      .then((results) => {
+        console.log(results.data);
+        setComments(results.data);
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          console.error(`Pas de commentaire à charger pour le post ${id}`);
+        }
+      });
+  }, []);
 
   const updateContent = (e) => {
     console.error(e.target.value);
@@ -34,7 +49,18 @@ function NewsFeed({
       text: textAreaValue,
       postId: id,
     };
-    api.post("/commentaire", toBePosted);
+    api
+      .post("/commentaire", toBePosted)
+      .then((result) => {
+        if (result.data === "Created") {
+          console.log("commentaire ajouté avec succès");
+        } else {
+          console.error();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setTextAreaValue("");
     setIsPostingComment(false);
   };
@@ -66,7 +92,7 @@ function NewsFeed({
                 setAreCommentsDisplayed(!areCommentsDisplayed);
               }}
             >
-              Comments: {content.comments.length}
+              Comments: {comments.length}
             </div>
           </div>
           <div>
@@ -115,14 +141,14 @@ function NewsFeed({
 
         {/* sections commentaires */}
         {areCommentsDisplayed
-          ? liveFeed.map((comment) => {
+          ? comments.map((comment) => {
               return (
                 <section id="comment">
                   <NewsFeed
                     content={{
-                      id: 0,
-                      user: "Basile",
-                      text: comment.content,
+                      id: comment.ID_Commentaire,
+                      user: comment.Pseudo_Utilisateur,
+                      text: comment.Contenu,
                       image: "",
                       likes: 1,
                       isLiked: false,

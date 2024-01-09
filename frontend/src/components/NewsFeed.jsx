@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import PublishFeed from "./PublishFeed";
+import React, { useState, useContext, useEffect } from "react";
+import api from "@services/services";
+import Context from "../context/Context";
 
 function NewsFeed({
   content,
+  id,
   handleLikes,
   handleComments,
   isComment,
@@ -13,10 +15,27 @@ function NewsFeed({
   //   console.error(content.comments);
   //   console.error(content.comments);
 
+  const { isConnected } = useContext(Context);
+  const [comments, setComments] = useState([]);
+  const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [liveFeed, setLiveFeed] = useState(content.comments);
+
+  useEffect(() => {
+    api
+      .get(`/commentaire/${id}`)
+      .then((results) => {
+        console.log(results.data);
+        setComments(results.data.reverse());
+      })
+      .catch((error) => {
+        if (error.response.status === 404) {
+          console.error(`Pas de commentaire à charger pour le post ${id}`);
+        }
+      });
+  }, [updateRequired]);
 
   const updateContent = (e) => {
     console.error(e.target.value);
@@ -25,14 +44,26 @@ function NewsFeed({
 
   const postComment = (e) => {
     e.preventDefault();
-    console.error(textAreaValue);
-    const tmpLiveFeed = [...liveFeed];
-    tmpLiveFeed[content.id].comments = [
-      { id: tmpLiveFeed[content.id].comments.length, content: textAreaValue },
-      ...tmpLiveFeed[content.id].comments,
-    ];
-
-    setLiveFeed(tmpLiveFeed);
+    const toBePosted = {
+      email: isConnected ? `${sessionStorage.getItem("email")}` : null,
+      user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
+      text: textAreaValue,
+      postId: id,
+    };
+    api
+      .post("/commentaire", toBePosted)
+      .then((result) => {
+        if (result.data === "Created") {
+          console.log("commentaire ajouté avec succès");
+          setUpdateRequired(!updateRequired);
+          setAreCommentsDisplayed(true);
+        } else {
+          console.error();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setTextAreaValue("");
     setIsPostingComment(false);
   };
@@ -64,18 +95,21 @@ function NewsFeed({
                 setAreCommentsDisplayed(!areCommentsDisplayed);
               }}
             >
-              Comments: {content.comments.length}
+              Comments: {comments.length}
             </div>
           </div>
           <div>
-            <button
-              className="submit-btn"
-              id="comment-btn"
-              type="button"
-              onClick={() => setIsPostingComment(!isPostingComment)}
-            >
-              Commenter
-            </button>
+            {content.isAComment ? null : (
+              <button
+                className={"submit-btn"}
+                id={"comment-btn"}
+                type="button"
+                onClick={() => setIsPostingComment(!isPostingComment)}
+              >
+                Commenter
+              </button>
+            )}
+
             <button
               className="submit-btn"
               id="like-btn"
@@ -113,18 +147,18 @@ function NewsFeed({
 
         {/* sections commentaires */}
         {areCommentsDisplayed
-          ? liveFeed.map((comment) => {
+          ? comments.map((comment) => {
               return (
                 <section id="comment">
                   <NewsFeed
                     content={{
-                      id: 0,
-                      user: "Basile",
-                      text: comment.content,
+                      id: comment.ID_Commentaire,
+                      user: comment.Pseudo_Utilisateur,
+                      text: comment.Contenu,
                       image: "",
-                      likes: 1,
+                      likes: 0,
                       isLiked: false,
-                      comments: [],
+                      isAComment: true,
                     }}
                     handleLikes={(likes) => handleLikes(likes)}
                     handleComments={(comment) => handleComments(comment)}

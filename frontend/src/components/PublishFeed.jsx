@@ -40,8 +40,6 @@ function PublishFeed() {
       });
   }, [update]);
 
-  const [isComment, setIsComment] = useState(false);
-
   // console.log(content);
   const [liveFeed, setLiveFeed] = useState();
   const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
@@ -123,7 +121,7 @@ function PublishFeed() {
 
     // update livefeeed
     const toBePosted = {
-      email: sessionStorage.getItem("email"),
+      email: isConnected ? `${sessionStorage.getItem("email")}` : null,
       user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
       text: publishContent.text,
     };
@@ -141,18 +139,6 @@ function PublishFeed() {
         console.error(error);
       });
 
-    // setLiveFeed([
-    //   {
-    //     id: liveFeed.length + 1,
-    //     user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
-    //     text: publishContent.text,
-    //     likes: 0,
-    //     isLiked: false,
-    //     // imageUrl: uploadedFileUrl,
-    //     comments: [],
-    //   },
-    //   ...liveFeed.reverse(),
-    // ]);
     setTextAreaValue("");
   };
 
@@ -198,10 +184,9 @@ function PublishFeed() {
               <NewsFeed
                 content={item}
                 key={item.id}
+                id={item.id}
                 handleLikes={(likes) => handleLikes(likes)}
                 handleComments={(comment) => handleComments(comment)}
-                isComment={isComment}
-                setIsComment={setIsComment}
               />
             );
           })}

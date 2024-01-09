@@ -37,7 +37,8 @@
   display: initial;
 }
 
-.hidden-navbar {
+.hidden-navbar,
+#invisible {
   display: none;
 }
 

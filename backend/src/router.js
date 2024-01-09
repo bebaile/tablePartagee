@@ -4,6 +4,7 @@ const fileControllers = require("./controllers/fileControllers");
 const userControllers = require("./controllers/userControllers");
 const authControllers = require("./controllers/authControllers");
 const postsControllers = require("./controllers/postsControllers");
+const commentaireControllers = require("./controllers/commentaireControllers");
 
 const {
   userExist,
@@ -22,6 +23,8 @@ router.post("/auth", authControllers.session);
 router.post("/logout", authControllers.logout);
 router.get("/posts", postsControllers.browse);
 router.post("/posts", postsControllers.add);
+router.post("/commentaire", commentaireControllers.add);
+router.get("/commentaire/:postId", commentaireControllers.read);
 
 // const availabilityControllers = require("./controllers/availabilityControllers");
 // const messagesControllers = require("./controllers/messagesControllers");

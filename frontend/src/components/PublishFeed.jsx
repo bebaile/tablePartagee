@@ -123,6 +123,7 @@ function PublishFeed() {
 
     // update livefeeed
     const toBePosted = {
+      email: sessionStorage.getItem("email"),
       user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
       text: publishContent.text,
     };

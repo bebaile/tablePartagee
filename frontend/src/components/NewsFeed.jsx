@@ -96,14 +96,17 @@ function NewsFeed({
             </div>
           </div>
           <div>
-            <button
-              className="submit-btn"
-              id="comment-btn"
-              type="button"
-              onClick={() => setIsPostingComment(!isPostingComment)}
-            >
-              Commenter
-            </button>
+            {content.isAComment ? null : (
+              <button
+                className={"submit-btn"}
+                id={"comment-btn"}
+                type="button"
+                onClick={() => setIsPostingComment(!isPostingComment)}
+              >
+                Commenter
+              </button>
+            )}
+
             <button
               className="submit-btn"
               id="like-btn"
@@ -150,9 +153,9 @@ function NewsFeed({
                       user: comment.Pseudo_Utilisateur,
                       text: comment.Contenu,
                       image: "",
-                      likes: 1,
+                      likes: 0,
                       isLiked: false,
-                      comments: [],
+                      isAComment: true,
                     }}
                     handleLikes={(likes) => handleLikes(likes)}
                     handleComments={(comment) => handleComments(comment)}

@@ -40,8 +40,6 @@ function PublishFeed() {
       });
   }, [update]);
 
-  const [isComment, setIsComment] = useState(false);
-
   // console.log(content);
   const [liveFeed, setLiveFeed] = useState();
   const [uploadedFileUrl, setUploadedFileUrl] = useState(null);
@@ -189,8 +187,6 @@ function PublishFeed() {
                 id={item.id}
                 handleLikes={(likes) => handleLikes(likes)}
                 handleComments={(comment) => handleComments(comment)}
-                isComment={isComment}
-                setIsComment={setIsComment}
               />
             );
           })}

@@ -56,6 +56,7 @@ function NewsFeed({
         if (result.data === "Created") {
           console.log("commentaire ajouté avec succès");
           setUpdateRequired(!updateRequired);
+          setAreCommentsDisplayed(true);
         } else {
           console.error();
         }

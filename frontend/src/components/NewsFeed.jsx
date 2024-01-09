@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import PublishFeed from "./PublishFeed";
+import React, { useState, useContext } from "react";
+import api from "@services/services";
+import Context from "../context/Context";
 
 function NewsFeed({
   content,
+  id,
   handleLikes,
   handleComments,
   isComment,
@@ -13,6 +15,7 @@ function NewsFeed({
   //   console.error(content.comments);
   //   console.error(content.comments);
 
+  const { isConnected } = useContext(Context);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -25,14 +28,13 @@ function NewsFeed({
 
   const postComment = (e) => {
     e.preventDefault();
-    console.error(textAreaValue);
-    const tmpLiveFeed = [...liveFeed];
-    tmpLiveFeed[content.id].comments = [
-      { id: tmpLiveFeed[content.id].comments.length, content: textAreaValue },
-      ...tmpLiveFeed[content.id].comments,
-    ];
-
-    setLiveFeed(tmpLiveFeed);
+    const toBePosted = {
+      email: isConnected ? `${sessionStorage.getItem("email")}` : null,
+      user: isConnected ? `${sessionStorage.getItem("pseudo")}` : "Inconnu",
+      text: textAreaValue,
+      postId: id,
+    };
+    api.post("/commentaire", toBePosted);
     setTextAreaValue("");
     setIsPostingComment(false);
   };

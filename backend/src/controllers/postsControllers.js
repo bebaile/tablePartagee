@@ -52,15 +52,29 @@ const edit = (req, res) => {
 
 const add = (req, res) => {
   console.error(req.body);
-  const { user, text } = req.body;
-  models.Post.insert(user, text)
-    .then(([result]) => {
-      res.location(`/items/${result.insertId}`).sendStatus(201);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+  const { email, user, text } = req.body;
+  models.Utilisateur.findByLogin(email).then((results) => {
+    if (results[0] !== null) {
+      const id = results[0][0].ID_Utilisateur;
+      models.Post.insert(user, text, id)
+        .then(([result]) => {
+          res.location(`/items/${result.insertId}`).sendStatus(201);
+        })
+        .catch((err) => {
+          console.error(err);
+          res.sendStatus(500);
+        });
+    } else {
+      models.Post.insert(user, text)
+        .then(([result]) => {
+          res.location(`/items/${result.insertId}`).sendStatus(201);
+        })
+        .catch((err) => {
+          console.error(err);
+          res.sendStatus(500);
+        });
+    }
+  });
 };
 
 // TODO validations (length, format...)

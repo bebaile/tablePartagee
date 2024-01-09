@@ -6,10 +6,10 @@ class PostManager extends AbstractManager {
   }
 
   // création d'un post
-  insert(user, text) {
+  insert(user, text, userId) {
     return this.connection.query(
-      `insert into ${this.table} (Pseudo_Utilisateur, Contenu) values (?,?)`,
-      [user, text]
+      `insert into ${this.table} (Pseudo_Utilisateur, Contenu, ID_Utilisateur) values (?,?, ?)`,
+      [user, text, userId]
     );
   }
 

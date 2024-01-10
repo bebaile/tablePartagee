@@ -6,6 +6,7 @@ function NewsFeed({
   content,
   id,
   handleLikes,
+  isLiked,
   handleComments,
   isComment,
   setIsComment,
@@ -16,13 +17,47 @@ function NewsFeed({
   //   console.error(content.comments);
 
   const { isConnected } = useContext(Context);
+  const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
+  const [textLikeBtn, setTextLikeBtn] = useState("");
   const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [liveFeed, setLiveFeed] = useState(content.comments);
 
+  // est ce que j'aime ce post / commentaire ou pas
+  async function checkIsLiked() {
+    try {
+      const result = await isLiked({
+        id: content.id,
+        isAComment: content.isAComment,
+      });
+      if (result.isLiked) {
+        console.log("unliker");
+        setTextLikeBtn("Unliker");
+      } else {
+        setTextLikeBtn("liker");
+        console.log("liker");
+      }
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    checkIsLiked();
+  }, []);
+
+  useEffect(() => {
+    if (textLikeBtn.length > 0) {
+      setIsLoading(false);
+    }
+  }, [textLikeBtn]);
+
+  // récupère les commentaires
   useEffect(() => {
     api
       .get(`/commentaire/${id}`)
@@ -37,10 +72,12 @@ function NewsFeed({
       });
   }, [updateRequired]);
 
+  // réinitialise le champ de commentaire
   const updateContent = (e) => {
     setTextAreaValue(e.target.value);
   };
 
+  // insere la publication dans la base de donnée
   const postComment = (e) => {
     e.preventDefault();
     const toBePosted = {
@@ -117,7 +154,7 @@ function NewsFeed({
                 handleLikes({ id: content.id, isAComment: content.isAComment })
               }
             >
-              {content.isLiked === false ? "Liker" : "Unliker"}
+              {isLoading ? "" : textLikeBtn}
             </button>
           </div>
         </div>

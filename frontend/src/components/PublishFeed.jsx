@@ -76,45 +76,48 @@ function PublishFeed() {
     // setUploadedFileUrl(`../../backend/uploads/${e.target.files[0].name}`);
   };
 
-  const handleLikes = (ref) => {
-    console.log(ref.id, ref.isAComment);
+  async function isLiked(ref) {
     const type = ref.isAComment ? "commentaire" : "post";
     const email = isConnected ? sessionStorage.getItem("email") : "inconnu";
+    try {
+      const result = await api.get(`/like/check/${ref.id}/${type}/${email}`);
+      console.log(result.data);
+      if (result.data.isExisting === true) {
+        return { isLiked: true, email, type, IDLike: result.data.ID_Like };
+      } else {
+        return { isLiked: false, email, type };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleLikes = async (ref) => {
     // on vérifie qu'il n'y a pas déjà un like
-    api
-      .get(`/like/check/${ref.id}/${type}/${email}`)
-      .then((result) => {
-        console.log(result);
-        if (result.data.isExisting === true) {
-          console.log("dejà liké");
-          const idLikeToDelete = result.data.ID_Like;
-          api
-            .delete(`/like/delete/${idLikeToDelete}`)
-            .then((result) => {
-              console.log(result);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        } else {
-          api
-            .post("/like/add", {
-              id: ref.id,
-              type: type,
-              email: email,
-            })
-            .then((result) => {
-              console.log(result);
-            });
-        }
-      })
-      .catch((error) => {
+    const result = await isLiked(ref);
+    console.log(result);
+    if (result.isLiked) {
+      console.log("post déjà liké");
+      const idLikeToDelete = result.IDLike;
+      console.log(idLikeToDelete);
+      try {
+        const results = await api.delete(`/like/delete/${idLikeToDelete}`);
+        console.log(results);
+      } catch (error) {
         console.error(error);
-      });
-
-    // s'il y a un like on l'enlève
-
-    // sinon on ajoute un like
+      }
+    } else {
+      try {
+        const results = await api.post("/like/add", {
+          id: ref.id,
+          type: result.type,
+          email: result.email,
+        });
+        console.log(results);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     // const tmpLiveFeed = [...liveFeed];
     // const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
@@ -225,6 +228,7 @@ function PublishFeed() {
                 key={item.id}
                 id={item.id}
                 handleLikes={(likes) => handleLikes(likes)}
+                isLiked={(ref) => isLiked(ref)}
                 handleComments={(comment) => handleComments(comment)}
               />
             );

@@ -80,18 +80,41 @@ function PublishFeed() {
     console.log(ref.id, ref.isAComment);
     const type = ref.isAComment ? "commentaire" : "post";
     const email = isConnected ? sessionStorage.getItem("email") : "inconnu";
+    // on vérifie qu'il n'y a pas déjà un like
     api
-      .post("/like/add", {
-        id: ref.id,
-        type: type,
-        email: email,
-      })
+      .get(`/like/check/${ref.id}/${type}/${email}`)
       .then((result) => {
         console.log(result);
+        if (result.data.isExisting === true) {
+          console.log("dejà liké");
+          const idLikeToDelete = result.data.ID_Like;
+          api
+            .delete(`/like/delete/${idLikeToDelete}`)
+            .then((result) => {
+              console.log(result);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          api
+            .post("/like/add", {
+              id: ref.id,
+              type: type,
+              email: email,
+            })
+            .then((result) => {
+              console.log(result);
+            });
+        }
       })
       .catch((error) => {
         console.error(error);
       });
+
+    // s'il y a un like on l'enlève
+
+    // sinon on ajoute un like
 
     // const tmpLiveFeed = [...liveFeed];
     // const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);

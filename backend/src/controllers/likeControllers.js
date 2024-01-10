@@ -13,19 +13,28 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
-  models.item
-    .find(req.params.id)
-    .then(([rows]) => {
-      if (rows[0] == null) {
-        res.sendStatus(404);
-      } else {
-        res.send(rows[0]);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.sendStatus(500);
-    });
+  const { id, type, email } = req.params;
+  models.Utilisateur.findByLogin(email).then((result) => {
+    if (result[0] !== null) {
+      models.Likes.findByUserId(
+        parseInt(id, 10),
+        type,
+        result[0][0].ID_Utilisateur
+      )
+        .then((results) => {
+          console.error(results[0]);
+          if (results[0].length > 0) {
+            res.send({ isExisting: true, ID_Like: results[0][0].ID_Like });
+          } else {
+            res.send(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          res.sendStatus(500);
+        });
+    }
+  });
 };
 
 const edit = (req, res) => {
@@ -68,8 +77,8 @@ const add = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  models.item
-    .delete(req.params.id)
+  const { idLikeToDelete } = req.params;
+  models.Likes.deleteLike(idLikeToDelete)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);

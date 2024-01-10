@@ -20,11 +20,27 @@ function NewsFeed({
   const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [textLikeBtn, setTextLikeBtn] = useState("");
+  const [nbLike, setNbLike] = useState(0);
   const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [liveFeed, setLiveFeed] = useState(content.comments);
+
+  // récupérer le nombre de like pour ce post / commentaire
+  useEffect(() => {
+    const type = content.isAComment ? "commentaire" : "post";
+    async function nbLikes(elementId) {
+      try {
+        const result = await api.get(`/like/count/${type}/${elementId}`);
+        console.log(result.data[0][0].nb_likes);
+        setNbLike(result.data[0][0].nb_likes);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    nbLikes(id);
+  }, []);
 
   // est ce que j'aime ce post / commentaire ou pas
   async function checkIsLiked() {
@@ -34,13 +50,9 @@ function NewsFeed({
         isAComment: content.isAComment,
       });
       if (result.isLiked) {
-        console.log("unliker");
-        setTextLikeBtn("Unliker");
       } else {
         setTextLikeBtn("liker");
-        console.log("liker");
       }
-      console.log(result);
       return result;
     } catch (error) {
       console.error(error);
@@ -124,7 +136,7 @@ function NewsFeed({
         </div>
         <div className="reactions">
           <div className="">
-            <div>Likes: {content.likes}</div>
+            <div>Likes: {nbLike}</div>
             <div
               id="comments-nbr"
               onClick={() => {

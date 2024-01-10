@@ -37,6 +37,18 @@ const read = (req, res) => {
   });
 };
 
+const count = (req, res) => {
+  const { type, elementId } = req.params;
+  models.Likes.count(type, elementId)
+    .then((result) => {
+      console.error(result);
+      res.send(result);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
 const edit = (req, res) => {
   const item = req.body;
 
@@ -98,4 +110,5 @@ module.exports = {
   edit,
   add,
   destroy,
+  count,
 };

@@ -81,7 +81,6 @@ function PublishFeed() {
     const email = isConnected ? sessionStorage.getItem("email") : "inconnu";
     try {
       const result = await api.get(`/like/check/${ref.id}/${type}/${email}`);
-      console.log(result.data);
       if (result.data.isExisting === true) {
         return { isLiked: true, email, type, IDLike: result.data.ID_Like };
       } else {

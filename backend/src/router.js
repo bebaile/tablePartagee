@@ -27,6 +27,7 @@ router.post("/posts", postsControllers.add);
 router.post("/commentaire", commentaireControllers.add);
 router.get("/commentaire/:postId", commentaireControllers.read);
 router.get("/like/check/:id/:type/:email", likeControllers.read);
+router.get("/like/count/:type/:elementId", likeControllers.count);
 router.delete("/like/delete/:idLikeToDelete", likeControllers.destroy);
 router.post("/like/add", likeControllers.add);
 

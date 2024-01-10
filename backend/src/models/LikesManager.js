@@ -12,6 +12,13 @@ class LikesManager extends AbstractManager {
     );
   }
 
+  count(type, elementId) {
+    return this.connection.query(
+      `SELECT COUNT(*) AS nb_likes FROM ${this.table} WHERE Type = ? AND ID_Element = ?`,
+      [type, elementId]
+    );
+  }
+
   insert(id, type, userId) {
     return this.connection.query(
       `insert into ${this.table} (Type, ID_Element, ID_Utilisateur) values (?, ?, ?)`,

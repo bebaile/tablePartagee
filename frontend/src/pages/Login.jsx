@@ -18,7 +18,6 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    console.error(credentials);
     api
       .post("/auth", {
         email: credentials.email,

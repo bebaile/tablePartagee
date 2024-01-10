@@ -27,18 +27,17 @@ function NewsFeed({
     api
       .get(`/commentaire/${id}`)
       .then((results) => {
-        console.log(results.data);
         setComments(results.data.reverse());
       })
       .catch((error) => {
         if (error.response.status === 404) {
-          console.error(`Pas de commentaire à charger pour le post ${id}`);
+          null;
+          // provides room for error handling if necessary
         }
       });
   }, [updateRequired]);
 
   const updateContent = (e) => {
-    console.error(e.target.value);
     setTextAreaValue(e.target.value);
   };
 
@@ -114,7 +113,9 @@ function NewsFeed({
               className="submit-btn"
               id="like-btn"
               type="button"
-              onClick={() => handleLikes(content.id)}
+              onClick={() =>
+                handleLikes({ id: content.id, isAComment: content.isAComment })
+              }
             >
               {content.isLiked === false ? "Liker" : "Unliker"}
             </button>

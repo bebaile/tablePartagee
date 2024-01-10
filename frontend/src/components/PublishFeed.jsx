@@ -76,16 +76,32 @@ function PublishFeed() {
     // setUploadedFileUrl(`../../backend/uploads/${e.target.files[0].name}`);
   };
 
-  const handleLikes = (postId) => {
-    const tmpLiveFeed = [...liveFeed];
-    const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
-    if (tmpLiveFeed[arrayIndex].isLiked) {
-      tmpLiveFeed[arrayIndex].likes -= 1;
-    } else {
-      tmpLiveFeed[arrayIndex].likes += 1;
-    }
-    tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
-    setLiveFeed(tmpLiveFeed);
+  const handleLikes = (ref) => {
+    console.log(ref.id, ref.isAComment);
+    const type = ref.isAComment ? "commentaire" : "post";
+    const email = isConnected ? sessionStorage.getItem("email") : "inconnu";
+    api
+      .post("/like/add", {
+        id: ref.id,
+        type: type,
+        email: email,
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    // const tmpLiveFeed = [...liveFeed];
+    // const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
+    // if (tmpLiveFeed[arrayIndex].isLiked) {
+    //   tmpLiveFeed[arrayIndex].likes -= 1;
+    // } else {
+    //   tmpLiveFeed[arrayIndex].likes += 1;
+    // }
+    // tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
+    // setLiveFeed(tmpLiveFeed);
   };
 
   const handleComments = (postId) => {

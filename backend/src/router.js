@@ -5,6 +5,7 @@ const userControllers = require("./controllers/userControllers");
 const authControllers = require("./controllers/authControllers");
 const postsControllers = require("./controllers/postsControllers");
 const commentaireControllers = require("./controllers/commentaireControllers");
+const likeControllers = require("./controllers/likeControllers");
 
 const {
   userExist,
@@ -25,6 +26,7 @@ router.get("/posts", postsControllers.browse);
 router.post("/posts", postsControllers.add);
 router.post("/commentaire", commentaireControllers.add);
 router.get("/commentaire/:postId", commentaireControllers.read);
+router.post("/like/add", likeControllers.add);
 
 // const availabilityControllers = require("./controllers/availabilityControllers");
 // const messagesControllers = require("./controllers/messagesControllers");

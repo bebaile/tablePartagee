@@ -14,7 +14,7 @@ export function ContextProvider({ children }) {
     type: sessionStorage.getItem("type"),
   });
 
-  const [updateRequired, setUpdateRequired] = useState();
+  const [updateRequired, setUpdateRequired] = useState(true); // update du nombre de likes
 
   return (
     <Context.Provider

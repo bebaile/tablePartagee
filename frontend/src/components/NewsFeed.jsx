@@ -51,6 +51,7 @@ function NewsFeed({
         isAComment: content.isAComment,
       });
       if (result.isLiked) {
+        setTextLikeBtn("Unliker");
       } else {
         setTextLikeBtn("liker");
       }
@@ -62,7 +63,7 @@ function NewsFeed({
 
   useEffect(() => {
     checkIsLiked();
-  }, []);
+  }, [updateRequired]);
 
   useEffect(() => {
     if (textLikeBtn.length > 0) {

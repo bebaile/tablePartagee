@@ -12,6 +12,7 @@ CREATE TABLE `Utilisateur` (
   `Naissance_Utilisateur` varchar(45) DEFAULT NULL,
   `Pseudo_Utilisateur` varchar(45) NOT NULL,
   `type` varchar(15) DEFAULT NULL,
+  `image_src` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID_Utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

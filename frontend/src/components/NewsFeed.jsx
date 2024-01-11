@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import api from "@services/services";
 import Context from "../context/Context";
+import avatar from "@assets/avatars/avatar1.png";
 
 function NewsFeed({
   content,
@@ -16,17 +17,24 @@ function NewsFeed({
   //   console.error(content.comments);
   //   console.error(content.comments);
 
+  console.log(isComment);
+
   const { isConnected, updateRequired, setUpdateRequired } =
     useContext(Context);
+  const [illustrationSrc, setIllustrationSrc] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [textLikeBtn, setTextLikeBtn] = useState("");
   const [nbLike, setNbLike] = useState(0);
-  // const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [liveFeed, setLiveFeed] = useState(content.comments);
+
+  useEffect(() => {
+    const number = Math.floor(Math.random() * (9 - 1) + 1);
+    setIllustrationSrc(`src/assets/avatars/avatar${number}.png`);
+  }, []);
 
   // récupérer le nombre de like pour ce post / commentaire
   useEffect(() => {
@@ -53,7 +61,7 @@ function NewsFeed({
       if (result.isLiked) {
         setTextLikeBtn("Unliker");
       } else {
-        setTextLikeBtn("liker");
+        setTextLikeBtn("Liker");
       }
       return result;
     } catch (error) {
@@ -121,61 +129,79 @@ function NewsFeed({
 
   return (
     <>
-      <div className="news-feed">
-        <div id="user">
-          <h3>Nom de l'utilisateur :</h3> {content.user}
-        </div>
-        <div id="content">
-          {typeof content.imageUrl !== "undefined" ? (
-            <div className="image">
-              <img
-                src={content.imageUrl}
-                alt="Illustration Publication"
-                className="illustration"
-              />
-            </div>
-          ) : null}
-          <div id={!isComment ? "" : "comment"}>{content.text}</div>
-        </div>
-        <div className="reactions">
-          <div className="">
-            <div>Likes: {nbLike}</div>
-            <div
-              id="comments-nbr"
-              onClick={() => {
-                setAreCommentsDisplayed(!areCommentsDisplayed);
-              }}
-            >
-              Comments: {comments.length}
-            </div>
+      <div className="news-feed" id={isComment ? "comment-container" : null}>
+        <div id={isComment ? "content-comment" : "content"}>
+          <div className={isComment ? "image-comment" : "image"}>
+            <img
+              // src={avatar}
+              src={illustrationSrc}
+              alt="Illustration Publication"
+              className="illustration"
+            />
           </div>
-          <div>
-            {content.isAComment ? null : (
-              <button
-                className={"submit-btn"}
-                id={"comment-btn"}
-                type="button"
-                onClick={() => setIsPostingComment(!isPostingComment)}
-              >
-                Commenter
-              </button>
-            )}
 
-            <button
-              className="submit-btn"
-              id="like-btn"
-              type="button"
-              onClick={() =>
-                handleLikes({
-                  id: content.id,
-                  isAComment: content.isAComment,
-                }).then(() => setUpdateRequired(!updateRequired))
-              }
-            >
-              {isLoading ? "" : textLikeBtn}
-            </button>
+          <div className="post-text" id={!isComment ? "" : "comments"}>
+            <div id="user">{content.user}</div>
+            {content.text}
           </div>
         </div>
+        <div className={isComment ? "reactions-comment" : "reactions"}>
+          <div></div>
+          <div id="react-icon-section">
+            <div>{comments.length}</div>
+            {content.isAComment ? null : (
+              <div>
+                <button
+                  id={"comment-btn"}
+                  type="button"
+                  onClick={() => {
+                    setAreCommentsDisplayed(!areCommentsDisplayed);
+                    setIsPostingComment(!isPostingComment);
+                  }}
+                ></button>
+              </div>
+            )}
+            <div>{nbLike}</div>
+            <div>
+              <button
+                id={textLikeBtn === "Liker" ? "like-btn" : "unlike-btn"}
+                type="button"
+                onClick={() =>
+                  handleLikes({
+                    id: content.id,
+                    isAComment: content.isAComment,
+                  }).then(() => setUpdateRequired(!updateRequired))
+                }
+              >
+                {isLoading ? "" : textLikeBtn === "Liker" ? null : null}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* sections commentaires */}
+        {areCommentsDisplayed
+          ? comments.map((comment) => {
+              return (
+                <div id="comment">
+                  <NewsFeed
+                    content={{
+                      id: comment.ID_Commentaire,
+                      user: comment.Pseudo_Utilisateur,
+                      text: comment.Contenu,
+                    }}
+                    key={`commentaire${comment.ID_Commentaire}`}
+                    handleLikes={(likes) => handleLikes(likes)}
+                    handleComments={(comment) => handleComments(comment)}
+                    isComment={true}
+                    id={comment.ID_Commentaire}
+                    isLiked={(ref) => isLiked(ref)}
+                  />
+                </div>
+              );
+            })
+          : ""}
+
         {/* section publier un commentaire */}
         {isPostingComment ? (
           <div className="posting-comment">
@@ -200,28 +226,6 @@ function NewsFeed({
         ) : (
           ""
         )}
-
-        {/* sections commentaires */}
-        {areCommentsDisplayed
-          ? comments.map((comment) => {
-              return (
-                <section id="comment">
-                  <NewsFeed
-                    content={{
-                      id: comment.ID_Commentaire,
-                      user: comment.Pseudo_Utilisateur,
-                      text: comment.Contenu,
-                    }}
-                    key={`commentaire${comment.ID_Commentaire}`}
-                    handleLikes={(likes) => handleLikes(likes)}
-                    handleComments={(comment) => handleComments(comment)}
-                    id={comment.ID_Commentaire}
-                    isLiked={(ref) => isLiked(ref)}
-                  />
-                </section>
-              );
-            })
-          : ""}
       </div>
     </>
   );

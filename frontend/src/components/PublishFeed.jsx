@@ -195,7 +195,7 @@ function PublishFeed() {
       {isLoading ? (
         ""
       ) : (
-        <div className="container">
+        <div className="news-feed-container">
           {liveFeed.map((item) => {
             return (
               <NewsFeed

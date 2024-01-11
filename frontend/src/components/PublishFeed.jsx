@@ -5,8 +5,14 @@ import content from "../data/newsFeed.json";
 import api from "@services/services";
 
 function PublishFeed() {
-  const { isConnected, setIsConnected, infoUser, setInfoUser } =
-    useContext(Context);
+  const {
+    isConnected,
+    setIsConnected,
+    infoUser,
+    setInfoUser,
+    updateRequired,
+    setUpdateRequired,
+  } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -117,7 +123,7 @@ function PublishFeed() {
         console.error(error);
       }
     }
-
+    setUpdateRequired(!updateRequired);
     // const tmpLiveFeed = [...liveFeed];
     // const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
     // if (tmpLiveFeed[arrayIndex].isLiked) {

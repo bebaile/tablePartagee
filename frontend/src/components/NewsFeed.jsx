@@ -16,12 +16,13 @@ function NewsFeed({
   //   console.error(content.comments);
   //   console.error(content.comments);
 
-  const { isConnected } = useContext(Context);
+  const { isConnected, updateRequired, setUpdateRequired } =
+    useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [textLikeBtn, setTextLikeBtn] = useState("");
   const [nbLike, setNbLike] = useState(0);
-  const [updateRequired, setUpdateRequired] = useState(false);
+  // const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
@@ -40,7 +41,7 @@ function NewsFeed({
       }
     }
     nbLikes(id);
-  }, []);
+  }, [updateRequired]);
 
   // est ce que j'aime ce post / commentaire ou pas
   async function checkIsLiked() {
@@ -75,6 +76,7 @@ function NewsFeed({
       .get(`/commentaire/${id}`)
       .then((results) => {
         setComments(results.data.reverse());
+        console.error(results.data.reverse());
       })
       .catch((error) => {
         if (error.response.status === 404) {
@@ -163,7 +165,10 @@ function NewsFeed({
               id="like-btn"
               type="button"
               onClick={() =>
-                handleLikes({ id: content.id, isAComment: content.isAComment })
+                handleLikes({
+                  id: content.id,
+                  isAComment: content.isAComment,
+                }).then(() => setUpdateRequired(!updateRequired))
               }
             >
               {isLoading ? "" : textLikeBtn}
@@ -205,13 +210,12 @@ function NewsFeed({
                       id: comment.ID_Commentaire,
                       user: comment.Pseudo_Utilisateur,
                       text: comment.Contenu,
-                      image: "",
-                      likes: 0,
-                      isLiked: false,
-                      isAComment: true,
                     }}
+                    key={`commentaire${comment.ID_Commentaire}`}
                     handleLikes={(likes) => handleLikes(likes)}
                     handleComments={(comment) => handleComments(comment)}
+                    id={comment.ID_Commentaire}
+                    isLiked={(ref) => isLiked(ref)}
                   />
                 </section>
               );

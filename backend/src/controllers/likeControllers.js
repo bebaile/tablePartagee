@@ -38,7 +38,8 @@ const read = (req, res) => {
 };
 
 const count = (req, res) => {
-  const { type, elementId } = req.params;
+  const { type } = req.params;
+  const elementId = parseInt(req.params.elementId, 10);
   models.Likes.count(type, elementId)
     .then((result) => {
       console.error(result);

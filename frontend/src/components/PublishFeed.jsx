@@ -5,8 +5,14 @@ import content from "../data/newsFeed.json";
 import api from "@services/services";
 
 function PublishFeed() {
-  const { isConnected, setIsConnected, infoUser, setInfoUser } =
-    useContext(Context);
+  const {
+    isConnected,
+    setIsConnected,
+    infoUser,
+    setInfoUser,
+    updateRequired,
+    setUpdateRequired,
+  } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -76,16 +82,57 @@ function PublishFeed() {
     // setUploadedFileUrl(`../../backend/uploads/${e.target.files[0].name}`);
   };
 
-  const handleLikes = (postId) => {
-    const tmpLiveFeed = [...liveFeed];
-    const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
-    if (tmpLiveFeed[arrayIndex].isLiked) {
-      tmpLiveFeed[arrayIndex].likes -= 1;
-    } else {
-      tmpLiveFeed[arrayIndex].likes += 1;
+  async function isLiked(ref) {
+    const type = ref.isAComment ? "commentaire" : "post";
+    const email = isConnected ? sessionStorage.getItem("email") : "inconnu";
+    try {
+      const result = await api.get(`/like/check/${ref.id}/${type}/${email}`);
+      if (result.data.isExisting === true) {
+        return { isLiked: true, email, type, IDLike: result.data.ID_Like };
+      } else {
+        return { isLiked: false, email, type };
+      }
+    } catch (error) {
+      console.error(error);
     }
-    tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
-    setLiveFeed(tmpLiveFeed);
+  }
+
+  const handleLikes = async (ref) => {
+    // on vérifie qu'il n'y a pas déjà un like
+    const result = await isLiked(ref);
+    console.log(result);
+    if (result.isLiked) {
+      console.log("post déjà liké");
+      const idLikeToDelete = result.IDLike;
+      console.log(idLikeToDelete);
+      try {
+        const results = await api.delete(`/like/delete/${idLikeToDelete}`);
+        console.log(results);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const results = await api.post("/like/add", {
+          id: ref.id,
+          type: result.type,
+          email: result.email,
+        });
+        console.log(results);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    setUpdateRequired(!updateRequired);
+    // const tmpLiveFeed = [...liveFeed];
+    // const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
+    // if (tmpLiveFeed[arrayIndex].isLiked) {
+    //   tmpLiveFeed[arrayIndex].likes -= 1;
+    // } else {
+    //   tmpLiveFeed[arrayIndex].likes += 1;
+    // }
+    // tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
+    // setLiveFeed(tmpLiveFeed);
   };
 
   const handleComments = (postId) => {
@@ -186,6 +233,7 @@ function PublishFeed() {
                 key={item.id}
                 id={item.id}
                 handleLikes={(likes) => handleLikes(likes)}
+                isLiked={(ref) => isLiked(ref)}
                 handleComments={(comment) => handleComments(comment)}
               />
             );

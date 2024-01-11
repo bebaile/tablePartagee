@@ -6,6 +6,7 @@ function NewsFeed({
   content,
   id,
   handleLikes,
+  isLiked,
   handleComments,
   isComment,
   setIsComment,
@@ -15,33 +16,83 @@ function NewsFeed({
   //   console.error(content.comments);
   //   console.error(content.comments);
 
-  const { isConnected } = useContext(Context);
+  const { isConnected, updateRequired, setUpdateRequired } =
+    useContext(Context);
+  const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
-  const [updateRequired, setUpdateRequired] = useState(false);
+  const [textLikeBtn, setTextLikeBtn] = useState("");
+  const [nbLike, setNbLike] = useState(0);
+  // const [updateRequired, setUpdateRequired] = useState(false);
   const [areCommentsDisplayed, setAreCommentsDisplayed] = useState(false);
   const [isPostingComment, setIsPostingComment] = useState(false);
   const [textAreaValue, setTextAreaValue] = useState("");
   const [liveFeed, setLiveFeed] = useState(content.comments);
 
+  // récupérer le nombre de like pour ce post / commentaire
+  useEffect(() => {
+    const type = content.isAComment ? "commentaire" : "post";
+    async function nbLikes(elementId) {
+      try {
+        const result = await api.get(`/like/count/${type}/${elementId}`);
+        console.log(result.data[0][0].nb_likes);
+        setNbLike(result.data[0][0].nb_likes);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    nbLikes(id);
+  }, [updateRequired]);
+
+  // est ce que j'aime ce post / commentaire ou pas
+  async function checkIsLiked() {
+    try {
+      const result = await isLiked({
+        id: content.id,
+        isAComment: content.isAComment,
+      });
+      if (result.isLiked) {
+        setTextLikeBtn("Unliker");
+      } else {
+        setTextLikeBtn("liker");
+      }
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    checkIsLiked();
+  }, [updateRequired]);
+
+  useEffect(() => {
+    if (textLikeBtn.length > 0) {
+      setIsLoading(false);
+    }
+  }, [textLikeBtn]);
+
+  // récupère les commentaires
   useEffect(() => {
     api
       .get(`/commentaire/${id}`)
       .then((results) => {
-        console.log(results.data);
         setComments(results.data.reverse());
+        console.error(results.data.reverse());
       })
       .catch((error) => {
         if (error.response.status === 404) {
-          console.error(`Pas de commentaire à charger pour le post ${id}`);
+          null;
+          // provides room for error handling if necessary
         }
       });
   }, [updateRequired]);
 
+  // réinitialise le champ de commentaire
   const updateContent = (e) => {
-    console.error(e.target.value);
     setTextAreaValue(e.target.value);
   };
 
+  // insere la publication dans la base de donnée
   const postComment = (e) => {
     e.preventDefault();
     const toBePosted = {
@@ -88,7 +139,7 @@ function NewsFeed({
         </div>
         <div className="reactions">
           <div className="">
-            <div>Likes: {content.likes}</div>
+            <div>Likes: {nbLike}</div>
             <div
               id="comments-nbr"
               onClick={() => {
@@ -114,9 +165,14 @@ function NewsFeed({
               className="submit-btn"
               id="like-btn"
               type="button"
-              onClick={() => handleLikes(content.id)}
+              onClick={() =>
+                handleLikes({
+                  id: content.id,
+                  isAComment: content.isAComment,
+                }).then(() => setUpdateRequired(!updateRequired))
+              }
             >
-              {content.isLiked === false ? "Liker" : "Unliker"}
+              {isLoading ? "" : textLikeBtn}
             </button>
           </div>
         </div>
@@ -155,13 +211,12 @@ function NewsFeed({
                       id: comment.ID_Commentaire,
                       user: comment.Pseudo_Utilisateur,
                       text: comment.Contenu,
-                      image: "",
-                      likes: 0,
-                      isLiked: false,
-                      isAComment: true,
                     }}
+                    key={`commentaire${comment.ID_Commentaire}`}
                     handleLikes={(likes) => handleLikes(likes)}
                     handleComments={(comment) => handleComments(comment)}
+                    id={comment.ID_Commentaire}
+                    isLiked={(ref) => isLiked(ref)}
                   />
                 </section>
               );

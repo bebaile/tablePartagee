@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import api from "@services/services";
 import Context from "../context/Context";
+import icn from "@assets/connect-icon.png";
 
 function NavBar() {
   const { isConnected, setIsConnected, infoUser, setInfoUser } =
@@ -34,7 +35,7 @@ function NavBar() {
 
   return (
     <>
-      <div className={location.pathname === "/" ? "container" : null}>
+      <div>
         <div
           className={
             isNavBarVisible && location.pathname === "/"
@@ -43,6 +44,7 @@ function NavBar() {
           }
         >
           <div id="pseudo">
+            <img src={icn} id="connect-icn" alt="icone pour se connecter" />
             {isConnected ? sessionStorage.getItem("pseudo") : null}
           </div>
           <div className="connect-btn-navbar">

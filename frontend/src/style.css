@@ -3,6 +3,16 @@
   margin: 0px;
   padding: 0px;
   --content-width: clamp(350px, 1024px, 100vw - 1rem);
+  --main-bg-color: #fcfcfc;
+  --color-pseudo-post: #cf322d;
+  --color-pseudo-commenting: #9fd481;
+  --post-bg-color: #fcfcfc;
+  --post-comment-color: #afafaf;
+  --nb-comments-like-color: #696464;
+  --std-font-color: #545454;
+  --comment-font-color: #000000;
+  --dropshadow-color: rgba(0, 0, 0, 0.25);
+  background-color: var(--main-bg-color);
 }
 
 .App {
@@ -13,6 +23,7 @@
 }
 
 .navbar {
+  background-color: var(--main-bg-color);
   width: var(--content-width);
   padding: 0.5rem 1rem;
   margin: 0;
@@ -20,14 +31,23 @@
   opacity: 1;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .hidden-navbar {
   display: none;
 }
 
+#connect-icn {
+  width: 2rem;
+  padding: 0;
+  margin-right: 1rem;
+}
+
 #pseudo {
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .connect-btn-navbar:hover {
@@ -35,14 +55,37 @@
   cursor: pointer;
 }
 
+/* section intro */
+#welcome {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#logo {
+  width: 200px;
+  display: block;
+}
+
+#welcome p {
+  text-align: center;
+  width: 300px;
+}
+
+#contribute-section-btn {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+  padding: 1rem;
+}
+
 .container {
   width: var(--content-width);
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid gray;
-  border-radius: 15px;
-  box-shadow: 1rem 1rem 2rem rgba(216, 216, 216, 0.631);
+  border-radius: 10px;
+  box-shadow: 1rem 1rem 2rem #d8d8d8a1;
   margin: 10px;
   padding: 0;
 }
@@ -105,15 +148,15 @@ icon:active {
 }
 
 .submit-btn {
-  background: #ff4742;
+  background: var(--color-pseudo-post);
   border: 1px solid #ff4742;
-  border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  border-radius: 32px;
+  box-shadow: 0px 4px 4px var(--dropshadow-color);
   color: #ffffff;
   cursor: pointer;
   display: inline-block;
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 400;
   line-height: 1rem;
   min-height: 30px;
   outline: 0;
@@ -125,13 +168,15 @@ icon:active {
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: middle;
+  padding: 1rem;
 }
 
 .submit-btn:hover,
 .submit-btn:active {
   background-color: initial;
   background-position: 0 0;
-  color: #ff4742;
+  color: var(--color-pseudo-post);
+  border: 1px solid var(--color-pseudo-post);
 }
 
 .button-24:active {

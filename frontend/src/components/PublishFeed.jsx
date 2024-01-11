@@ -3,6 +3,7 @@ import NewsFeed from "./NewsFeed";
 import Context from "../context/Context";
 import content from "../data/newsFeed.json";
 import api from "@services/services";
+import logo from "@assets/logo-table-partagee.png";
 
 function PublishFeed() {
   const {
@@ -16,6 +17,7 @@ function PublishFeed() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [update, setUpdate] = useState(false);
+  const [displayPublishSection, setDisplayPublishSection] = useState(false);
 
   // Etat du liveFeed
 
@@ -124,15 +126,6 @@ function PublishFeed() {
       }
     }
     setUpdateRequired(!updateRequired);
-    // const tmpLiveFeed = [...liveFeed];
-    // const arrayIndex = tmpLiveFeed.findIndex((item) => item.id === postId);
-    // if (tmpLiveFeed[arrayIndex].isLiked) {
-    //   tmpLiveFeed[arrayIndex].likes -= 1;
-    // } else {
-    //   tmpLiveFeed[arrayIndex].likes += 1;
-    // }
-    // tmpLiveFeed[arrayIndex].isLiked = !tmpLiveFeed[arrayIndex].isLiked;
-    // setLiveFeed(tmpLiveFeed);
   };
 
   const handleComments = (postId) => {
@@ -191,36 +184,13 @@ function PublishFeed() {
 
   return (
     <div>
-      <div className="container">
-        <h2>Que voulez vous partager aujourd'hui ?</h2>
-
-        <div className="publish-form">
-          <form onSubmit={handleSubmit} method="post">
-            <div className="input-text">
-              <textarea
-                name="content"
-                onChange={updateContent}
-                id="input-text"
-                value={textAreaValue}
-              />
-            </div>
-            <div className="submit">
-              <input
-                type="file"
-                className="add-picture"
-                accept="image/*"
-                name="image-upload"
-                // multiple
-                onChange={handleImageChange}
-              ></input>
-
-              <button className="submit-btn" type="submit">
-                Publier
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <section id="welcome">
+        <img src={logo} id="logo" alt="logo table partagée" />
+        <p>
+          Partagez avec notre communauté vos astuces, vos questions et vos
+          conseils culinaires. Que voulez vous publier aujourd’hui ?
+        </p>
+      </section>
 
       {isLoading ? (
         ""
@@ -240,6 +210,53 @@ function PublishFeed() {
           })}
         </div>
       )}
+      {/* bouton partager */}
+      <section id="contribute-section-btn">
+        <div>
+          <button
+            className="submit-btn"
+            onClick={() => {
+              setDisplayPublishSection(!displayPublishSection);
+            }}
+          >
+            Partager avec la communauté
+          </button>
+        </div>
+      </section>
+
+      {/* formulaire de partage */}
+      {displayPublishSection ? (
+        <div className="container">
+          <h2>Que voulez vous partager aujourd'hui ?</h2>
+
+          <div className="publish-form">
+            <form onSubmit={handleSubmit} method="post">
+              <div className="input-text">
+                <textarea
+                  name="content"
+                  onChange={updateContent}
+                  id="input-text"
+                  value={textAreaValue}
+                />
+              </div>
+              <div className="submit">
+                <input
+                  type="file"
+                  className="add-picture"
+                  accept="image/*"
+                  name="image-upload"
+                  // multiple
+                  onChange={handleImageChange}
+                ></input>
+
+                <button className="submit-btn" type="submit">
+                  Publier
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

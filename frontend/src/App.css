@@ -3,6 +3,16 @@
   margin: 0;
   padding: 0;
   --content-width: clamp(375px, 1024px, 100vw - 1rem);
+  /* style table partagé */
+  --color-pseudo-post: #cf322d;
+  --color-pseudo-commenting: #9fd481;
+  --post-bg-color: #fcfcfc;
+  --post-comment-color: #afafaf;
+  --nb-comments-like-color: #696464;
+  --std-font-color: #545454;
+  --comment-font-color: #000000;
+
+  /* variables héritées d'un autre projet */
   --title-color: #1e4b9f;
   --button-color: #2ea44f;
   --button-color-2: hsla(13, 36%, 31%, 0.4);
